@@ -8,15 +8,22 @@ namespace MyCSetophylax
 {
     public class SrednieDopasowaniaMrowek
     {
+        private Dictionary<int, double> dopasowanieOdCzasu;
+
+        public SrednieDopasowaniaMrowek()
+        {
+            dopasowanieOdCzasu = new Dictionary<int, double>();
+        }
+
         public double this[int czas]
         {
             get
             {
-                throw new NotImplementedException();
+                return dopasowanieOdCzasu[czas];
             }
             set
             {
-                throw new NotImplementedException();
+                dopasowanieOdCzasu[czas] = value;
             }
         }
     }
