@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyCSetophylax.Przestrzen
+namespace MyCSetophylax.PrzestrzenZyciowa
 {
     public class Przestrzen
     {
         private WierszPrzestrzeni[] wiersze;
 
-        private static int obliczOdpowiedzniBokPrzestrzeniDla(int liczbaMrowek)
+        private static int ObliczOdpowiedzniBokPrzestrzeniDla(int liczbaMrowek)
         {
             var n = (double)liczbaMrowek;
             var pierwiastek = Math.Sqrt(n);
@@ -20,7 +20,7 @@ namespace MyCSetophylax.Przestrzen
 
         public static Przestrzen StworzPrzestrzenDla(int liczbaMrowek)
         {
-            var pozadanaDlugoscBoku = obliczOdpowiedzniBokPrzestrzeniDla(liczbaMrowek);
+            var pozadanaDlugoscBoku = ObliczOdpowiedzniBokPrzestrzeniDla(liczbaMrowek);
             return new Przestrzen(pozadanaDlugoscBoku);
         }
 
@@ -31,6 +31,13 @@ namespace MyCSetophylax.Przestrzen
             {
                 wiersze[i] = new WierszPrzestrzeni(dlugoscBoku);
             }
+            DlugoscBoku = dlugoscBoku;
+        }
+
+        public int DlugoscBoku
+        {
+            get;
+            private set;
         }
 
         public WierszPrzestrzeni this[int indeksWiersza]

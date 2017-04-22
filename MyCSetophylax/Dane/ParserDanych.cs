@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyCSetophylax
+namespace MyCSetophylax.Dane
 {
     public class ParserDanych
     {
-        private IEnumerable<string> wczytajWiersze(Stream dane)
+        private IEnumerable<string> WczytajWiersze(Stream dane)
         {
             using (StreamReader czytnik = new StreamReader(dane))
             {
@@ -24,7 +24,7 @@ namespace MyCSetophylax
 
         public IList<double[]> ParsujDane(Stream strumienDanych)
         {
-            return wczytajWiersze(strumienDanych)
+            return WczytajWiersze(strumienDanych)
                 .Select(wiersz => wiersz.Split(new[] { ',' }))
                 .Select(stringi => stringi
                     .Select(str => double.Parse(str))

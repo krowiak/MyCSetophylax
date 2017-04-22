@@ -13,10 +13,10 @@ namespace MyCSetophylax.SrednieOdleglosci
 
         public SrednieOdleglosciDlaAgentow(IEnumerable<Mrowka> mrowki, IOdleglosc<Mrowka> odleglosci)
         {
-            srednieOdleglosci = tworzSlownikSrednichOdleglosci(mrowki, odleglosci);
+            srednieOdleglosci = TworzSlownikSrednichOdleglosci(mrowki, odleglosci);
         }
 
-        private Dictionary<int, double> tworzSlownikSrednichOdleglosci(IEnumerable<Mrowka> mrowki, IOdleglosc<Mrowka> odleglosci)
+        private Dictionary<int, double> TworzSlownikSrednichOdleglosci(IEnumerable<Mrowka> mrowki, IOdleglosc<Mrowka> odleglosci)
         {
             var slownik = new Dictionary<int, double>();
 

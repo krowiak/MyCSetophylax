@@ -4,27 +4,30 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyCSetophylax.Przestrzen
+namespace MyCSetophylax.PrzestrzenZyciowa
 {
     public class Sasiedztwo
     {
         private Przestrzen przestrzen;
-        private int sX;
-        private int sY;
 
         public Sasiedztwo(Przestrzen przestrzen, int zasiegX, int zasiegY)
         {
             this.przestrzen = przestrzen;
-            sX = zasiegX;
-            sY = zasiegY;
+            ZasiegX = zasiegX;
+            ZasiegY = zasiegY;
+            RozmiarSasiedztwa = ZasiegX * ZasiegY - 1;
         }
+
+        public int RozmiarSasiedztwa { get; }
+        public int ZasiegX { get; }
+        public int ZasiegY { get; }
 
         public IEnumerable<(int X, int Y)> PolaWSasiedztwie(int x, int y)
         {
-            var pola = new List<(int, int)>(sX*sY - 1);
-            for (int iX = 0; iX < sX; iX++)
+            var pola = new List<(int, int)>(ZasiegX * ZasiegY - 1);
+            for (int iX = 0; iX < ZasiegX; iX++)
             {
-                for (int iY = 0; iY < sY; iY++)
+                for (int iY = 0; iY < ZasiegY; iY++)
                 {
                     if (iX != x || iY != y)
                     {

@@ -8,15 +8,19 @@ namespace MyCSetophylax
 {
     public class Czas
     {
-        private readonly int maksCzas;
-
         public Czas(int maksCzas)
         {
             Aktualny = 0;
-            this.maksCzas = maksCzas;
+            Maksymalny = maksCzas;
         }
 
         public int Aktualny
+        {
+            get;
+            private set;
+        }
+
+        public int Maksymalny
         {
             get;
             private set;
@@ -26,7 +30,7 @@ namespace MyCSetophylax
         {
             get
             {
-                return maksCzas > Aktualny;
+                return Maksymalny > Aktualny;
             }
         }
 

@@ -8,23 +8,24 @@ namespace MyCSetophylax.KonkretneOdleglosci
 {
     public class OdleglosciPomiedzyMrowkami : IOdleglosc<Mrowka>
     {
-        private Dictionary<(int, int), double> odleglosci;
+        private readonly Dictionary<(int, int), double> odleglosci;
+        private readonly IOdleglosc<double[]> odlWektorow;
 
-        public OdleglosciPomiedzyMrowkami(IEnumerable<Mrowka> mrowki)
+        public OdleglosciPomiedzyMrowkami(IEnumerable<Mrowka> mrowki, IOdleglosc<double[]> odlegloscWektorow)
         {
-            odleglosci = tworzSlownikOdleglosci(mrowki);
+            odlWektorow = odlegloscWektorow;
+            odleglosci = TworzSlownikOdleglosci(mrowki);
         }
 
-        private Dictionary<(int, int), double> tworzSlownikOdleglosci(IEnumerable<Mrowka> mrowki)
+        private Dictionary<(int, int), double> TworzSlownikOdleglosci(IEnumerable<Mrowka> mrowki)
         {
-            var odlEuklidesowa = new OdlegloscEuklidesowa();
             var slownik = new Dictionary<(int, int), double>();
             var uporzadkowaneMrowki = mrowki.OrderBy(mrowka => mrowka.Id).ToList();
             for (int i = 0; i < uporzadkowaneMrowki.Count - 1; i++)
             {
                 var m1 = uporzadkowaneMrowki[i];
                 var m2 = uporzadkowaneMrowki[i + 1];
-                var odleglosc = odlEuklidesowa.OkreslOdleglosc(m1.Dane, m2.Dane);
+                var odleglosc = odlWektorow.OkreslOdleglosc(m1.Dane, m2.Dane);
                 slownik[(m1.Id, m2.Id)] = odleglosc;
             }
             return slownik;

@@ -47,27 +47,41 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Aktywacja\Aktywator.cs" />
+    <Compile Include="Aktywacja\IPresja.cs" />
+    <Compile Include="Aktywacja\PresjaZaleznaOdCzasu.cs" />
+    <Compile Include="Aktywacja\StalaPresja.cs" />
+    <Compile Include="Dopasowanie\SlownikOdleglosci.cs" />
+    <Compile Include="Dopasowanie\Oceniacz.cs" />
+    <Compile Include="Przemieszczenie\IPrzemieszczacz.cs" />
+    <Compile Include="Przemieszczenie\LosowyPrzemieszczacz.cs" />
+    <Compile Include="Przemieszczenie\ZachlannyPrzemieszczacz.cs" />
     <Compile Include="Przestrzen\Przestrzen.cs" />
     <Compile Include="Przestrzen\Sasiedztwo.cs" />
-    <Compile Include="SrednieDopasowaniaMrowek.cs" />
+    <Compile Include="Przestrzen\Wyswietlanie\IReprezentacjaPola.cs" />
+    <Compile Include="Przestrzen\Wyswietlanie\ReprezentacjaIdMrowki.cs" />
+    <Compile Include="Przestrzen\Wyswietlanie\ReprezentacjaKlasaMrowki.cs" />
+    <Compile Include="Przestrzen\Wyswietlanie\WyswietlaczPrzestrzeni.cs" />
+    <Compile Include="Dopasowanie\SrednieDopasowaniaMrowek.cs" />
     <Compile Include="SrednieOdleglosci\KonfiguracjaSredniejOdlOdCzasu.cs" />
     <Compile Include="Czas.cs" />
     <Compile Include="KonkretneOdleglosci\IOdleglosc.cs" />
     <Compile Include="SrednieOdleglosci\ISrednieOdleglosci.cs" />
     <Compile Include="Mrowka.cs" />
     <Compile Include="KonkretneOdleglosci\OdlegloscEuklidesowa.cs" />
-    <Compile Include="ParserDanych.cs" />
+    <Compile Include="Dane\ParserDanych.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="KonkretneOdleglosci\OdleglosciPomiedzyMrowkami.cs" />
     <Compile Include="SrednieOdleglosci\NajsredniejszaOdleglosc.cs" />
     <Compile Include="SrednieOdleglosci\SrednieOdleglosciDlaAgentow.cs" />
     <Compile Include="SrednieOdleglosci\SrednieOdleglosciOdCzasu.cs" />
-    <Compile Include="StandaryzatorZScore.cs" />
+    <Compile Include="Dane\StandaryzatorZScore.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

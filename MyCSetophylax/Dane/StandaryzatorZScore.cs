@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyCSetophylax
+namespace MyCSetophylax.Dane
 {
     public class StandaryzatorZScore
     {
         // https://www.mathsisfun.com/data/standard-deviation-formulas.html
-        private double okreslOdchylenieStandardoweWymiaru(double[] dane)
+        private double OkreslOdchylenieStandardoweWymiaru(double[] dane)
         {
             var liczbaDanych = dane.Length;
             var srednia = dane.Average();
@@ -18,19 +18,19 @@ namespace MyCSetophylax
         }
 
         // http://sebastianraschka.com/Articles/2014_about_feature_scaling.html#about-standardization
-        private double okreslZScoreWartosci(double wartosc, double srednia, double odchylenieStandardowe)
+        private double OkreslZScoreWartosci(double wartosc, double srednia, double odchylenieStandardowe)
         {
             return (wartosc - srednia) / odchylenieStandardowe;
         }
 
-        private double[] okreslZScoreWymiaru(double[] dane)
+        private double[] OkreslZScoreWymiaru(double[] dane)
         {
             var srednia = dane.Average();
-            var odchylenie = okreslOdchylenieStandardoweWymiaru(dane);
-            return dane.Select(x_i => okreslZScoreWartosci(x_i, srednia, odchylenie)).ToArray();
+            var odchylenie = OkreslOdchylenieStandardoweWymiaru(dane);
+            return dane.Select(x_i => OkreslZScoreWartosci(x_i, srednia, odchylenie)).ToArray();
         }
 
-        private double[] pobierzWymiar(int indeksWymiaru, IEnumerable<double[]> dane)
+        private double[] PobierzWymiar(int indeksWymiaru, IEnumerable<double[]> dane)
         {
             var listaDanych = dane.ToList();
             var wybranyWymiar = new double[listaDanych.Count];
@@ -41,7 +41,7 @@ namespace MyCSetophylax
             return wybranyWymiar;
         }
 
-        private IEnumerable<double[]> przeksztalcWymiaryNaObiekty(IEnumerable<double[]> wymiary)
+        private IEnumerable<double[]> PrzeksztalcWymiaryNaObiekty(IEnumerable<double[]> wymiary)
         {
             var listaWymiarow = wymiary.ToList();
             var liczbaWymiarow = listaWymiarow.Count;
@@ -79,11 +79,11 @@ namespace MyCSetophylax
             var znormalizowaneWymiary = new List<double[]>(liczbaWymiarow);
             for (int i = 0; i < liczbaWymiarow; i++)
             {
-                var nieznormalizowanyWymiar = pobierzWymiar(i, listaDanych);
-                var znormalizowanyWymiar = okreslZScoreWymiaru(nieznormalizowanyWymiar);
+                var nieznormalizowanyWymiar = PobierzWymiar(i, listaDanych);
+                var znormalizowanyWymiar = OkreslZScoreWymiaru(nieznormalizowanyWymiar);
                 znormalizowaneWymiary.Add(znormalizowanyWymiar);
             }
-            return przeksztalcWymiaryNaObiekty(znormalizowaneWymiary);
+            return PrzeksztalcWymiaryNaObiekty(znormalizowaneWymiary);
         }
     }
 }

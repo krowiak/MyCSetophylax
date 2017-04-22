@@ -1,4 +1,5 @@
-﻿using MyCSetophylax.KonkretneOdleglosci;
+﻿using MyCSetophylax.Dopasowanie;
+using MyCSetophylax.KonkretneOdleglosci;
 using System;
 using System.Collections.Generic;
 using System.Linq;
