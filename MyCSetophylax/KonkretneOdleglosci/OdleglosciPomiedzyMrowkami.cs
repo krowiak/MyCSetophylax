@@ -23,10 +23,13 @@ namespace MyCSetophylax.KonkretneOdleglosci
             var uporzadkowaneMrowki = mrowki.OrderBy(mrowka => mrowka.Id).ToList();
             for (int i = 0; i < uporzadkowaneMrowki.Count - 1; i++)
             {
-                var m1 = uporzadkowaneMrowki[i];
-                var m2 = uporzadkowaneMrowki[i + 1];
-                var odleglosc = odlWektorow.OkreslOdleglosc(m1.Dane, m2.Dane);
-                slownik[(m1.Id, m2.Id)] = odleglosc;
+                for (int j = i + 1; j < uporzadkowaneMrowki.Count; j++)
+                {
+                    var m1 = uporzadkowaneMrowki[i];
+                    var m2 = uporzadkowaneMrowki[j];
+                    var odleglosc = odlWektorow.OkreslOdleglosc(m1.Dane, m2.Dane);
+                    slownik[(m1.Id, m2.Id)] = odleglosc;
+                }
             }
             return slownik;
         }

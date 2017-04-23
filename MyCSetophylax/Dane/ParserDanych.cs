@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -27,7 +28,7 @@ namespace MyCSetophylax.Dane
             return WczytajWiersze(strumienDanych)
                 .Select(wiersz => wiersz.Split(new[] { ',' }))
                 .Select(stringi => stringi
-                    .Select(str => double.Parse(str))
+                    .Select(str => double.Parse(str, CultureInfo.InvariantCulture))
                     .ToArray())
                 .ToList();
         }

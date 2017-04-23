@@ -53,6 +53,9 @@
     <Compile Include="Aktywacja\StalaPresja.cs" />
     <Compile Include="Dopasowanie\SlownikOdleglosci.cs" />
     <Compile Include="Dopasowanie\Oceniacz.cs" />
+    <Compile Include="Klasy\IOkreslaczKlas.cs" />
+    <Compile Include="Klasy\MniejZmiennyOkreslaczKlas.cs" />
+    <Compile Include="Klasy\OkreslaczKlas.cs" />
     <Compile Include="Przemieszczenie\IPrzemieszczacz.cs" />
     <Compile Include="Przemieszczenie\LosowyPrzemieszczacz.cs" />
     <Compile Include="Przemieszczenie\ZachlannyPrzemieszczacz.cs" />
@@ -81,7 +84,24 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="PlikiDanych\iris.data">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="PlikiDanych\irisBezSmieci.data">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="PlikiDanych\WINO.data">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <Content Include="PlikiDanych\daneprostokatow.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="PlikiDanych\gupieDane.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

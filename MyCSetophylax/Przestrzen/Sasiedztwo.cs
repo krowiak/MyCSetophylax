@@ -25,13 +25,15 @@ namespace MyCSetophylax.PrzestrzenZyciowa
         public IEnumerable<(int X, int Y)> PolaWSasiedztwie(int x, int y)
         {
             var pola = new List<(int, int)>(ZasiegX * ZasiegY - 1);
-            for (int iX = 0; iX < ZasiegX; iX++)
+            for (int iX = (x-ZasiegX); iX <= (x+ZasiegX); iX++)
             {
-                for (int iY = 0; iY < ZasiegY; iY++)
+                for (int iY = (y-ZasiegY); iY <= (y+ZasiegY); iY++)
                 {
                     if (iX != x || iY != y)
                     {
-                        pola.Add((iX, iY));
+                        var modX = PrawdziweModulo(iX, przestrzen.DlugoscBoku);
+                        var modY = PrawdziweModulo(iY, przestrzen.DlugoscBoku);
+                        pola.Add((modX, modY));
                     }
                 }
             }
@@ -39,22 +41,34 @@ namespace MyCSetophylax.PrzestrzenZyciowa
             return pola;
         }
 
+        /// <summary>
+        /// Autorzy biblioteki standardowej w swej nieskończonej mądrości postanowili, że -3 % 10 = -3 zamiast 7.
+        /// Ta metoda uważa inaczej.
+        /// </summary>
+        /// <param name="n">Modulowana liczba.</param>
+        /// <param name="modulo">Przez co modulować.</param>
+        /// <returns>Sensowny wynik.</returns>
+        private int PrawdziweModulo(int n, int modulo)
+        {
+            return ((n % modulo) + modulo) % modulo;
+        }
+
         public IEnumerable<(int X, int Y)> PustePolaWSasiedztwie(int x, int y)
         {
             return PolaWSasiedztwie(x, y)
-                .Where(xY => przestrzen[xY.X][xY.Y] == null);
+                .Where(xY => przestrzen[xY.Y][xY.X] == null);
         }
 
         public IEnumerable<(int X, int Y)> PolaMrowekWSasiedztwie(int x, int y)
         {
             return PolaWSasiedztwie(x, y)
-                .Where(xY => przestrzen[xY.X][xY.Y] != null);
+                .Where(xY => przestrzen[xY.Y][xY.X] != null);
         }
 
         public IEnumerable<Mrowka> MrowkiWSasiedztwie(int x, int y)
         {
             return PolaWSasiedztwie(x, y)
-                .Select(xY => przestrzen[xY.X][xY.Y])
+                .Select(xY => przestrzen[xY.Y][xY.X])
                 .Where(mrowka => mrowka != null);
         }
     }

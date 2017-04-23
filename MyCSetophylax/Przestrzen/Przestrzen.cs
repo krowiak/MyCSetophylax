@@ -45,6 +45,20 @@ namespace MyCSetophylax.PrzestrzenZyciowa
             get { return wiersze[indeksWiersza]; }
         }
 
+        public void RozmiescMrowki(IEnumerable<Mrowka> mrowki, Random los)
+        {
+            foreach (var mrowka in mrowki)
+            {
+                int x, y;
+                do
+                {
+                    x = los.Next(DlugoscBoku);
+                    y = los.Next(DlugoscBoku);
+                } while (wiersze[y][x] != null);
+                wiersze[y][x] = mrowka;
+            }
+        }
+
         public class WierszPrzestrzeni
         {
             private Mrowka[] pola;

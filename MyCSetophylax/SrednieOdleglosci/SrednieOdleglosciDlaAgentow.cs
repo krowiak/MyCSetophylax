@@ -29,7 +29,7 @@ namespace MyCSetophylax.SrednieOdleglosci
                 {
                     if (i != j)
                     {
-                        var m2 = listaMrowek[i + 1];
+                        var m2 = listaMrowek[j];
                         sumaOdleglosciMrowki += odleglosci.OkreslOdleglosc(m1, m2);
                     }
                 }

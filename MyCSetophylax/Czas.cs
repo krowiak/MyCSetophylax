@@ -10,7 +10,7 @@ namespace MyCSetophylax
     {
         public Czas(int maksCzas)
         {
-            Aktualny = 0;
+            Aktualny = 1;
             Maksymalny = maksCzas;
         }
 
@@ -30,7 +30,7 @@ namespace MyCSetophylax
         {
             get
             {
-                return Maksymalny > Aktualny;
+                return Maksymalny <= Aktualny;
             }
         }
 

@@ -20,7 +20,7 @@ namespace MyCSetophylax.PrzestrzenZyciowa.Wyswietlanie
             Console.Write("   ");
             for (int i = 0; i < przestrzen.DlugoscBoku; i++)
             {
-                Console.Write($"{i.ToString().PadLeft(4)}");
+                Console.Write($"{i.ToString().PadLeft(5)}");
             }
             Console.WriteLine();
 
