@@ -33,7 +33,7 @@ namespace MyCSetophylax.SrednieOdleglosci
                         sumaOdleglosciMrowki += odleglosci.OkreslOdleglosc(m1, m2);
                     }
                 }
-                var sredniaOdleglosciMrowki = sumaOdleglosciMrowki / listaMrowek.Count - 1;
+                var sredniaOdleglosciMrowki = sumaOdleglosciMrowki / (listaMrowek.Count - 1);
                 slownik[m1.Id] = sredniaOdleglosciMrowki;
             }
 

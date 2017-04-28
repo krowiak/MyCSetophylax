@@ -24,7 +24,7 @@ namespace MyCSetophylax.Klasy
             if (sasiadki.Count > 0)
             {
                 klasaDocelowa = sasiadki.GroupBy(sasiadka => sasiadka.Klasa)
-                    .OrderBy(grupa => grupa.Count())
+                    .OrderByDescending(grupa => grupa.Count())
                     .First()
                     .Key;
             }

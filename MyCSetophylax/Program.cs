@@ -22,7 +22,7 @@ namespace MyCSetophylax
         {
             var maszynaLosujaca = new Random();
             List<Mrowka> mrowki;
-            using (var strumienDanych = File.OpenRead(@"PlikiDanych\daneprostokatow.txt"))//gupieDane.txt"))// irisBezSmieci.data"))
+            using (var strumienDanych = File.OpenRead(@"PlikiDanych\irisBezSmieci.data"))
             {
                 var parser = new ParserDanych();
                 var niestandaryzowaneDane = parser.ParsujDane(strumienDanych);
@@ -31,8 +31,8 @@ namespace MyCSetophylax
                 mrowki = wektoryDanych.Select((wektor, indeks) => new Mrowka(indeks, wektor)).ToList();
             }
 
-            var sX = 1;
-            var sY = 1;
+            var sX = 2;
+            var sY = 2;
             var przestrzen = Przestrzen.StworzPrzestrzenDla(mrowki.Count);
             var sasiedztwo = new Sasiedztwo(przestrzen, sX, sY);
             var reprezentacjaId = new ReprezentacjaIdMrowki();
@@ -48,7 +48,7 @@ namespace MyCSetophylax
             var czas = new Czas(liczbaIteracji);
             var srednieDopasowaniaWCzasie = new SrednieDopasowaniaMrowek();
             var kLambda = 1.0;
-            var presja = new StalaPresja(); //new PresjaZaleznaOdCzasu(czas, srednieDopasowaniaWCzasie, kLambda);
+            var presja = new PresjaZaleznaOdCzasu(czas, srednieDopasowaniaWCzasie, kLambda);
             var bazowePrawdopAktywacji = 0.1;
             var aktywator = new Aktywator(czas, maszynaLosujaca, bazowePrawdopAktywacji, presja);
             var euklides = new OdlegloscEuklidesowa();
@@ -117,6 +117,14 @@ namespace MyCSetophylax
                     mrowka.Klasa = nowaKlasa;
                 }
 
+                //if (czas.Aktualny > 1900)
+                //{
+                //    Console.WriteLine();
+                //    var reprezentacjaKlasaa = new ReprezentacjaKlasaMrowki();
+                //    var wyswietlaczKlasaa = new WyswietlaczPrzestrzeni(reprezentacjaKlasaa);
+                //    wyswietlaczKlasaa.Wyswietl(przestrzen);
+                //    //wyswietlaczId.Wyswietl(przestrzen);
+                //}
                 czas.Uplywaj();
             }
 

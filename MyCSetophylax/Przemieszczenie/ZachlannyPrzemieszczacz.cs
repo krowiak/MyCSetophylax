@@ -51,7 +51,7 @@ namespace MyCSetophylax.Przemieszczenie
                 przestrzen[y][x] = null;
                 var najlepszePole = pustePola
                     .Select(nowaPozycja => new {Pole = nowaPozycja, Ocena = oceniacz.Ocen(mrowka, nowaPozycja)})
-                    .OrderBy(poleZOcena => poleZOcena.Ocena)
+                    .OrderByDescending(poleZOcena => poleZOcena.Ocena)
                     .First()
                     .Pole;
                 przestrzen[najlepszePole.Y][najlepszePole.X] = mrowka;
