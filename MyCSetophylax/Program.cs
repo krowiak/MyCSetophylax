@@ -22,7 +22,7 @@ namespace MyCSetophylax
         {
             var maszynaLosujaca = new Random();
             List<Mrowka> mrowki;
-            using (var strumienDanych = File.OpenRead(@"PlikiDanych\irisBezSmieci.data"))
+            using (var strumienDanych = File.OpenRead(@"PlikiDanych\WINO.data"))
             {
                 var parser = new ParserDanych();
                 var niestandaryzowaneDane = parser.ParsujDane(strumienDanych);
@@ -32,7 +32,7 @@ namespace MyCSetophylax
             }
 
             var sX = 2;
-            var sY = 2;
+            var sY = 3;
             var przestrzen = Przestrzen.StworzPrzestrzenDla(mrowki.Count);
             var sasiedztwo = new Sasiedztwo(przestrzen, sX, sY);
             var reprezentacjaId = new ReprezentacjaIdMrowki();
@@ -44,7 +44,7 @@ namespace MyCSetophylax
             Console.WriteLine("Grupowanie...");
 
             // Przygotowanie całego śmiecia
-            var liczbaIteracji = 2000;
+            var liczbaIteracji = 5000;
             var czas = new Czas(liczbaIteracji);
             var srednieDopasowaniaWCzasie = new SrednieDopasowaniaMrowek();
             var kLambda = 1.0;
@@ -53,7 +53,15 @@ namespace MyCSetophylax
             var aktywator = new Aktywator(czas, maszynaLosujaca, bazowePrawdopAktywacji, presja);
             var euklides = new OdlegloscEuklidesowa();
             var odleglosci = new OdleglosciPomiedzyMrowkami(mrowki, euklides);
-            var srednieOdleglosciOdInnychAgentow = new SrednieOdleglosciDlaAgentow(mrowki, odleglosci);
+            var deltaT = 50;
+            var kAlfa = 0.5;
+            var srednieOdleglosciOdInnychAgentow = new SrednieOdleglosciOdCzasu(czas, srednieDopasowaniaWCzasie, new KonfiguracjaSredniejOdlOdCzasu()
+            {
+                IleJednostekCzasuSpogladacWstecz = deltaT,
+                SposobOkreslaniaWartosciPrzedUaktywnieniem = new NajsredniejszaOdleglosc(mrowki, odleglosci), // str.11, 12 - stałe 0.5coś, 0.4coś? Ale zupełnie nie działają u mnie, średnia odl. dla t=50 ~2.coś, więc wyniki są zawsze ujemne -> wszystko się zawsze rusza?
+                StopienWplywuRoznicySrednichNaWynikWDanejJednostceCzasu = kAlfa
+            });
+            //var srednieOdleglosciOdInnychAgentow = new SrednieOdleglosciDlaAgentow(mrowki, odleglosci);
             var slownikOdleglosci = new SlownikOdleglosci(mrowki, odleglosci);
             var oceniacz = new Oceniacz(slownikOdleglosci, srednieOdleglosciOdInnychAgentow, sasiedztwo);
             var stopienZachlannosci = 0.9;
@@ -130,62 +138,66 @@ namespace MyCSetophylax
 
             Console.WriteLine();
             Console.WriteLine("Pogrupowano!");
-            var reprezentacjaKlasa = new ReprezentacjaKlasaMrowki();
-            var wyswietlaczKlasa = new WyswietlaczPrzestrzeni(reprezentacjaKlasa);
+
             wyswietlaczId.Wyswietl(przestrzen);
             Console.WriteLine();
-            wyswietlaczKlasa.Wyswietl(przestrzen);
 
+            var reprezentacjaKlasa = new ReprezentacjaKlasaMrowki();
+            var wyswietlaczKlasa = new WyswietlaczPrzestrzeni(reprezentacjaKlasa);
+            wyswietlaczKlasa.Wyswietl(przestrzen);
+            Console.WriteLine();
+
+            Func<Mrowka, string> okreslaczKlasyDocelowej = okreslaczKlasyDocelowejWin;
+            var reprezentacjaKlDocelowa = new ReprezentacjaKlasaDocelowa(okreslaczKlasyDocelowej);
+            var wyswietlaczKlDocelowa = new WyswietlaczPrzestrzeni(reprezentacjaKlDocelowa);
+            wyswietlaczKlDocelowa.Wyswietl(przestrzen);
+
+            Console.Beep();
             Console.ReadKey();
+        }
+
+        private static string okreslaczKlasyDocelowejIrysow(Mrowka mrowka)
+        {
+            switch (mrowka?.Id)
+            {
+                case null:
+                    Console.ResetColor();
+                    return String.Empty;
+                case int id when id < 50:
+                    Console.BackgroundColor = ConsoleColor.Green;
+                    return "1";
+                case int id when id < 100:
+                    Console.BackgroundColor = ConsoleColor.Yellow;
+                    return "2";
+                case int id when id < 150:
+                    Console.BackgroundColor = ConsoleColor.Red;
+                    return "3";
+                default:
+                    Console.BackgroundColor = ConsoleColor.Blue;
+                    return "?";
+            }
+        }
+
+        private static string okreslaczKlasyDocelowejWin(Mrowka mrowka)
+        {
+            switch (mrowka?.Id)
+            {
+                case null:
+                    Console.ResetColor();
+                    return String.Empty;
+                case int id when id < 59:
+                    Console.BackgroundColor = ConsoleColor.Green;
+                    return "1";
+                case int id when id < 130:
+                    Console.BackgroundColor = ConsoleColor.Yellow;
+                    return "2";
+                case int id when id < 178:
+                    Console.BackgroundColor = ConsoleColor.Red;
+                    return "3";
+                default:
+                    Console.BackgroundColor = ConsoleColor.Blue;
+                    return "?";
+            }
         }
     }
 }
-
-//let mutable aktPrzestrzen = przestrzen
-
-//    for t=1 to liczbaIteracji do
-//        let nastepnaPrzestrzen = Array2D.copy aktPrzestrzen
-//        let mutable zmianyKlas = []
-
-//        let polaZMrowkami =
-//            PrzestrzenNaSeqPol aktPrzestrzen 
-//            |> Seq.filter(PobierzZawartosc aktPrzestrzen >> Option.isSome)
-//            |> Seq.toList
-
-//        let ocenySrodowisk =
-//            polaZMrowkami
-//            |> List.map(fun pole -> PobierzZawartosc aktPrzestrzen pole |> Option.get, pole)
-//            |> List.map(fun (mrowka, pole) -> mrowka, funOceny aktPrzestrzen mrowka pole)
-//            |> Map.ofList
-//        srednieOcenyDlaT.[t] <- ocenySrodowisk |> Map.toSeq |> Seq.sumBy (fun (_, ocena) -> ocena)
-
-//        //////////
-//        /// Klasy zaczęły się zmieniać dla mrówek bez sąsiadów!
-//        /// Najpierw jest obliczana ocena, potem następuje przemieszczanie, więc czasem mrówka z oceną > 0 zostaje sama.
-//        /// Cóż za niefortunne zdarzenie.
-//        //////////
-//        for pole in polaZMrowkami do
-//            let x, y = pole
-//            let mrowka = aktPrzestrzen.[x, y] |> Option.get
-//            let ocena = Map.find mrowka ocenySrodowisk
-//            let pAktywacji = funPrawdopAktywacji ocena t
-//            let sasiedztwo = funSasiedztwa pole
-//            if los.NextDouble() <= pAktywacji
-//            then
-//                funPrzemieszczenia nastepnaPrzestrzen sasiedztwo pole
-//                //zmianyKlas <- (mrowka, mrowka.Id)::zmianyKlas  // str. 7 - "class label same as original one"
-//            else zmianyKlas<- (mrowka, funKlasy aktPrzestrzen sasiedztwo mrowka)::zmianyKlas
-
-//        for (mrowka, klasa) in zmianyKlas do
-//            klasyMrowek.[mrowka] <- klasa
-//        aktPrzestrzen<- nastepnaPrzestrzen
-
-//        if debug then
-//            Console.Clear() |> ignore
-//            printfn "Iteracja %i zakończona" t
-//            WypiszKlasyWPrzestrzeni klasyMrowek aktPrzestrzen
-//            printfn ""
-//            System.Threading.Thread.Sleep(25)
-//            //Console.ReadKey() |> ignore
-
-//    aktPrzestrzen, klasyMrowek

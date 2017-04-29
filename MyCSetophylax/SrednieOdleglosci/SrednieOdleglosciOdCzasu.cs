@@ -10,6 +10,7 @@ namespace MyCSetophylax.SrednieOdleglosci
 {
     public class SrednieOdleglosciOdCzasu : ISrednieOdleglosci
     {
+        private readonly Dictionary<int, double> poprzednieWartosci;
         private readonly SrednieDopasowaniaMrowek srednieDopasowaniaOdCzasu;
         private readonly int deltaT;
         private readonly double kAlfa;
@@ -23,6 +24,7 @@ namespace MyCSetophylax.SrednieOdleglosci
             deltaT = konfiguracja.IleJednostekCzasuSpogladacWstecz;
             kAlfa = konfiguracja.StopienWplywuRoznicySrednichNaWynikWDanejJednostceCzasu;
             zrodloWartPoczatkowych = konfiguracja.SposobOkreslaniaWartosciPrzedUaktywnieniem;
+            poprzednieWartosci = new Dictionary<int, double>();
         }
 
         public double OkreslSredniaOdleglosc(Mrowka sprawdzanaMrowka)
@@ -31,15 +33,19 @@ namespace MyCSetophylax.SrednieOdleglosci
             {
                 // Im bardziej na to patrzę, tym bardziej rozsądne wydaje mi się, żeby raczej używać stałej, choćby i 0.
                 // Pierwsze kilka iteracji i tak jest praktycznie bez znaczenia.
-                var wartosciPoczatkowa = zrodloWartPoczatkowych.OkreslSredniaOdleglosc(sprawdzanaMrowka);
-                return wartosciPoczatkowa - kAlfa * wartosciPoczatkowa;
+                var wartoscPoczatkowa = zrodloWartPoczatkowych.OkreslSredniaOdleglosc(sprawdzanaMrowka);
+                poprzednieWartosci[czas.Aktualny] = wartoscPoczatkowa;
+                return wartoscPoczatkowa;// - kAlfa * wartoscPoczatkowa;
             }
             else
             {
                 int staryCzas = czas.Aktualny - deltaT;
-                double wartHistoryczna = srednieDopasowaniaOdCzasu[staryCzas];
-                double roznicaSrednich = wartHistoryczna - srednieDopasowaniaOdCzasu[czas.Aktualny];
-                return wartHistoryczna - kAlfa * roznicaSrednich;
+                double wartHistorycznaDopasowania = srednieDopasowaniaOdCzasu[staryCzas];
+                double roznicaSrednich = wartHistorycznaDopasowania - srednieDopasowaniaOdCzasu[czas.Aktualny - 1];  // Jeśli -1 tu nadal jest: to nieprzemyślana poprawka na szybko, bo średniej dla danego aktualnego t jeszcze nie było. Przemyśleć i ew. poprawić.
+                double wartHistorycznaSredniejOdl = poprzednieWartosci[staryCzas];
+                double wartAktualna = wartHistorycznaSredniejOdl - kAlfa * roznicaSrednich;
+                poprzednieWartosci[czas.Aktualny] = wartAktualna;
+                return wartAktualna;
             }
         }
     }

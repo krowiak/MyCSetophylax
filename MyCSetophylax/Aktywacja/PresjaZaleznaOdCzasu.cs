@@ -41,10 +41,3 @@ namespace MyCSetophylax.Aktywacja
         }
     }
 }
-
-//let TworzPresjeZaleznaOdCzasu(srednieOcenyDlaT:SrednieOcenyDlaCzasu) k_lambda t_max =
-//   let funPresji t =
-//       let wplywParametru = k_lambda / srednieOcenyDlaT.[t]
-//       let wplywCzasu = (float t_max / float t) |> log10
-//        2.0 + wplywParametru* wplywCzasu
-//    funPresji

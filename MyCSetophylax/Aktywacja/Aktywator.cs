@@ -32,7 +32,8 @@ namespace MyCSetophylax.Aktywacja
         private double OkreslSzanseAktywacji(double ocenaMrowki)
         {
             var wartPresji = presja.OkreslPresje();
-            var betaDoLambda = Math.Pow(pAktywacji, wartPresji);
+            // Dla bardzo wysokiej presji wynik potęgowania może wynieść 0, co nie może być prawidłowe dla pAktywacji > 0
+            var betaDoLambda = Math.Max(Math.Pow(pAktywacji, wartPresji), double.Epsilon);  
             var wplywOceny = Math.Pow(ocenaMrowki, wartPresji);
 
             var licznik = betaDoLambda;

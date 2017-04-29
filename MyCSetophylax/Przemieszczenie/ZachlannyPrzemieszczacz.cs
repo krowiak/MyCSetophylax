@@ -49,6 +49,11 @@ namespace MyCSetophylax.Przemieszczenie
             if (pustePola.Any())
             {
                 przestrzen[y][x] = null;
+                var isUponAs = pustePola
+                    .Select(nowaPozycja => new { Pole = nowaPozycja, Ocena = oceniacz.Ocen(mrowka, nowaPozycja) });
+                var fighter = isUponAs
+                    .OrderByDescending(poleZOcena => poleZOcena.Ocena);
+                var face = fighter.First();
                 var najlepszePole = pustePola
                     .Select(nowaPozycja => new {Pole = nowaPozycja, Ocena = oceniacz.Ocen(mrowka, nowaPozycja)})
                     .OrderByDescending(poleZOcena => poleZOcena.Ocena)

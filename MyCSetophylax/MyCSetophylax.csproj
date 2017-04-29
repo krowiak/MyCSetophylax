@@ -63,6 +63,7 @@
     <Compile Include="Przestrzen\Sasiedztwo.cs" />
     <Compile Include="Przestrzen\Wyswietlanie\IReprezentacjaPola.cs" />
     <Compile Include="Przestrzen\Wyswietlanie\ReprezentacjaIdMrowki.cs" />
+    <Compile Include="Przestrzen\Wyswietlanie\ReprezentacjaKlasaDocelowa.cs" />
     <Compile Include="Przestrzen\Wyswietlanie\ReprezentacjaKlasaMrowki.cs" />
     <Compile Include="Przestrzen\Wyswietlanie\WyswietlaczPrzestrzeni.cs" />
     <Compile Include="Dopasowanie\SrednieDopasowaniaMrowek.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="SrednieOdleglosci\SrednieOdleglosciDlaAgentow.cs" />
     <Compile Include="SrednieOdleglosci\SrednieOdleglosciOdCzasu.cs" />
     <Compile Include="Dane\StandaryzatorZScore.cs" />
+    <Compile Include="SrednieOdleglosci\StalaUdajacaSrednia.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
