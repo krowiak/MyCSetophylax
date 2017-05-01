@@ -27,7 +27,7 @@ namespace MyCSetophylax
                 var parser = new ParserDanych();
                 var niestandaryzowaneDane = parser.ParsujDane(strumienDanych);
                 var zScore = new StandaryzatorZScore();
-                IEnumerable<double[]> wektoryDanych = zScore.Standaryzuj(niestandaryzowaneDane);
+                IEnumerable<double[]> wektoryDanych = niestandaryzowaneDane;//zScore.Standaryzuj(niestandaryzowaneDane);
                 mrowki = wektoryDanych.Select((wektor, indeks) => new Mrowka(indeks, wektor)).ToList();
             }
 
@@ -53,8 +53,8 @@ namespace MyCSetophylax
             var aktywator = new Aktywator(czas, maszynaLosujaca, bazowePrawdopAktywacji, presja);
             var euklides = new OdlegloscEuklidesowa();
             var odleglosci = new OdleglosciPomiedzyMrowkami(mrowki, euklides);
-            var deltaT = 50;
-            var kAlfa = 0.5;
+            //var deltaT = 50;
+            //var kAlfa = 0.5;
             //var srednieOdleglosciOdInnychAgentow = new SrednieOdleglosciOdCzasu(czas, srednieDopasowaniaWCzasie, new KonfiguracjaSredniejOdlOdCzasu()
             //{
             //    IleJednostekCzasuSpogladacWstecz = deltaT,
@@ -72,7 +72,7 @@ namespace MyCSetophylax
                     oceniacz, przestrzen, sasiedztwo, maszynaLosujaca);
                 przemieszczacz = zachlannyPrzemieszczacz;
             }
-            var okreslaczKlas = new OpoznionyOkreslaczKlas(czas, 4995, new OkreslaczKlas(sasiedztwo));
+            var okreslaczKlas = new OpoznionyOkreslaczKlas(czas, 4900, new GlobalnyPodobienstwowyOkreslaczKlas(odleglosci, sasiedztwo, czas));//new OpoznionyOkreslaczKlas(czas, 0, new OkreslaczKlas(sasiedztwo));
 
             // Grupowanie właściwe
             while (!czas.CzyUplynal)
@@ -154,7 +154,7 @@ namespace MyCSetophylax
             wyswietlaczKlasa.Wyswietl(przestrzen);
             Console.WriteLine();
 
-            Func<Mrowka, string> okreslaczKlasyDocelowej = okreslaczKlasyDocelowejIrysow;
+            Func<Mrowka, string> okreslaczKlasyDocelowej = OkreslaczKlasyDocelowejIrysow;
             var reprezentacjaKlDocelowa = new ReprezentacjaKlasaDocelowa(okreslaczKlasyDocelowej);
             var wyswietlaczKlDocelowa = new WyswietlaczPrzestrzeni(reprezentacjaKlDocelowa);
             wyswietlaczKlDocelowa.Wyswietl(przestrzen);
@@ -163,7 +163,7 @@ namespace MyCSetophylax
             Console.ReadKey();
         }
 
-        private static string okreslaczKlasyDocelowejIrysow(Mrowka mrowka)
+        private static string OkreslaczKlasyDocelowejIrysow(Mrowka mrowka)
         {
             switch (mrowka?.Id)
             {
@@ -185,7 +185,7 @@ namespace MyCSetophylax
             }
         }
 
-        private static string okreslaczKlasyDocelowejWin(Mrowka mrowka)
+        private static string OkreslaczKlasyDocelowejWin(Mrowka mrowka)
         {
             switch (mrowka?.Id)
             {

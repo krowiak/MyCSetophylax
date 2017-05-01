@@ -27,6 +27,7 @@ namespace MyCSetophylax.Dopasowanie
             var dzielnik = ObliczDzielnikOceny();
             var mrowkiWSasiedztwie = sasiedztwo.MrowkiWSasiedztwie(x, y);
             var sumaSkladowych = mrowkiWSasiedztwie.Sum(sasiadka => OkreslSkladowaOceny(mrowka, sasiadka));
+            //    + (sasiedztwo.RozmiarSasiedztwa - mrowkiWSasiedztwie.Count()) * 0.1;  // Próba zachęcenia mrówek do unikania niepodobnych sąsiadów bardziej niż pustki, niezbyt udana
             var wynikObliczen = sumaSkladowych / dzielnik;
             var ocena = Math.Max(wynikObliczen, 0.0);
             return ocena;

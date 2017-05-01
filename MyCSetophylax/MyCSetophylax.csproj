@@ -53,6 +53,7 @@
     <Compile Include="Aktywacja\StalaPresja.cs" />
     <Compile Include="Dopasowanie\SlownikOdleglosci.cs" />
     <Compile Include="Dopasowanie\Oceniacz.cs" />
+    <Compile Include="Klasy\GlobalnyPodobienstwowyOkreslaczKlas.cs" />
     <Compile Include="Klasy\IOkreslaczKlas.cs" />
     <Compile Include="Klasy\MniejZmiennyOkreslaczKlas.cs" />
     <Compile Include="Klasy\OkreslaczKlas.cs" />

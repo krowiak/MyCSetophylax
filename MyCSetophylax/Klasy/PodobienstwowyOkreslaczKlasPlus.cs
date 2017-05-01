@@ -29,7 +29,7 @@ namespace MyCSetophylax.Klasy
         {
             get;
             set;
-        } = 1000;
+        } = int.MaxValue;
 
         public int OkreslKlase(Mrowka mrowka, (int x, int y) pozycjaMrowki)
         {
@@ -63,7 +63,7 @@ namespace MyCSetophylax.Klasy
                         }
                     }
 
-                    return doZbadania.OrderByDescending(
+                    return doZbadania.OrderBy(
                         klasa => klasa.Average(innaMrowka => odleglosci.OkreslOdleglosc(mrowka, innaMrowka))
                     ).First().Key;
 

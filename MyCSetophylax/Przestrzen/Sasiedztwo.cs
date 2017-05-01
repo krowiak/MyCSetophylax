@@ -15,7 +15,7 @@ namespace MyCSetophylax.PrzestrzenZyciowa
             this.przestrzen = przestrzen;
             ZasiegX = zasiegX;
             ZasiegY = zasiegY;
-            RozmiarSasiedztwa = ZasiegX * ZasiegY - 1;
+            RozmiarSasiedztwa = (ZasiegX*2 + 1) * (ZasiegY*2 + 1) - 1;
         }
 
         public int RozmiarSasiedztwa { get; }

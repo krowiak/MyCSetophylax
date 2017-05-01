@@ -18,10 +18,12 @@ namespace MyCSetophylax.PrzestrzenZyciowa.Wyswietlanie
         {
             if (mrowka != null)
             {
+                Console.BackgroundColor = (ConsoleColor)(mrowka.Klasa % 16);
                 return Formatuj(mrowka.Klasa.ToString());
             }
             else
             {
+                Console.ResetColor();
                 return Formatuj(String.Empty);
             }
         }

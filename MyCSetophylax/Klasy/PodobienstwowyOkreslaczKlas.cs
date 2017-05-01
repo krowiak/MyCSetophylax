@@ -27,7 +27,7 @@ namespace MyCSetophylax.Klasy
             {
                 var najpodobniejszaKlasa = mrowkiWSasiedztwie
                     .GroupBy(innaMrowka => innaMrowka.Klasa)
-                    .OrderByDescending(
+                    .OrderBy(
                         klasa => klasa.Average(innaMrowka => odleglosci.OkreslOdleglosc(mrowka, innaMrowka))
                     ).First().Key;
                 return najpodobniejszaKlasa;

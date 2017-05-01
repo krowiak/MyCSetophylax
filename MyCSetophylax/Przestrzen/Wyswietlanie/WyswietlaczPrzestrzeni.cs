@@ -17,6 +17,7 @@ namespace MyCSetophylax.PrzestrzenZyciowa.Wyswietlanie
 
         public void Wyswietl(Przestrzen przestrzen)
         {
+            Console.ResetColor();
             Console.Write("   ");
             for (int i = 0; i < przestrzen.DlugoscBoku; i++)
             {
@@ -34,6 +35,7 @@ namespace MyCSetophylax.PrzestrzenZyciowa.Wyswietlanie
                 }
                 Console.WriteLine();
             }
+            Console.ResetColor();
         }
     }
 }
