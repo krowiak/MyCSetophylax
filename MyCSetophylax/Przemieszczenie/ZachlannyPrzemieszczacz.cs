@@ -49,20 +49,39 @@ namespace MyCSetophylax.Przemieszczenie
             if (pustePola.Any())
             {
                 przestrzen[y][x] = null;
-                var isUponAs = pustePola
-                    .Select(nowaPozycja => new { Pole = nowaPozycja, Ocena = oceniacz.Ocen(mrowka, nowaPozycja) });
-                var fighter = isUponAs
-                    .OrderByDescending(poleZOcena => poleZOcena.Ocena);
-                var face = fighter.First();
                 var najlepszePole = pustePola
-                    .Select(nowaPozycja => new {Pole = nowaPozycja, Ocena = oceniacz.Ocen(mrowka, nowaPozycja)})
+                    .Select(nowaPozycja => new { Pole = nowaPozycja, Ocena = oceniacz.Ocen(mrowka, nowaPozycja) })
                     .OrderByDescending(poleZOcena => poleZOcena.Ocena)
                     .First()
                     .Pole;
                 przestrzen[najlepszePole.Y][najlepszePole.X] = mrowka;
             }
 
-            // else?
+            /////////////
+            //// Poniżej: wyrzucanie mrówki dalej, jeśli brak pustych pól w sąsiedztwie.
+            //// Na szybko && brzydko, ale nie szkodzi, wyniki praktycznie identyczne.
+            //// Klasyczny przemieszczacz nie miał czegoś takiego, ale że odpowiada za 10% przypadków raczej nie pomoże.
+            /////////////
+
+            //else
+            //{
+            //    var pustePolaWSasiedztwiePlus = new Sasiedztwo(przestrzen, sasiedztwo.ZasiegX * 2, sasiedztwo.ZasiegY * 2).PustePolaWSasiedztwie(x, y).ToList();
+            //    if (pustePolaWSasiedztwiePlus.Any())
+            //    {
+            //        przestrzen[y][x] = null;
+            //        var najlepszePole = pustePolaWSasiedztwiePlus
+            //            .Select(nowaPozycja => new { Pole = nowaPozycja, Ocena = oceniacz.Ocen(mrowka, nowaPozycja) })
+            //            .OrderByDescending(poleZOcena => poleZOcena.Ocena)
+            //            .First()
+            //            .Pole;
+            //        przestrzen[najlepszePole.Y][najlepszePole.X] = mrowka;
+            //        Console.WriteLine("Pomogło!");
+            //    }
+            //    else
+            //    {
+            //        Console.WriteLine("Nie pomogło...");
+            //    }
+            //}
         }
 
         private void PrzemiescKlasycznie(Mrowka mrowka, (int x, int y) pozycjaMrowki)

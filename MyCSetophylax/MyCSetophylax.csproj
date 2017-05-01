@@ -56,6 +56,9 @@
     <Compile Include="Klasy\IOkreslaczKlas.cs" />
     <Compile Include="Klasy\MniejZmiennyOkreslaczKlas.cs" />
     <Compile Include="Klasy\OkreslaczKlas.cs" />
+    <Compile Include="Klasy\OpoznionyOkreslaczKlas.cs" />
+    <Compile Include="Klasy\PodobienstwowyOkreslaczKlasPlus.cs" />
+    <Compile Include="Klasy\PodobienstwowyOkreslaczKlas.cs" />
     <Compile Include="Przemieszczenie\IPrzemieszczacz.cs" />
     <Compile Include="Przemieszczenie\LosowyPrzemieszczacz.cs" />
     <Compile Include="Przemieszczenie\ZachlannyPrzemieszczacz.cs" />
