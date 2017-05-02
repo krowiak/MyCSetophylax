@@ -22,7 +22,7 @@ namespace MyCSetophylax
         {
             var maszynaLosujaca = new Random();
             List<Mrowka> mrowki;
-            using (var strumienDanych = File.OpenRead(@"PlikiDanych\WINO.data"))
+            using (var strumienDanych = File.OpenRead(@"PlikiDanych\irisBezSmieci.data"))
             {
                 var parser = new ParserDanych();
                 var niestandaryzowaneDane = parser.ParsujDane(strumienDanych);
@@ -53,15 +53,17 @@ namespace MyCSetophylax
             var aktywator = new Aktywator(czas, maszynaLosujaca, bazowePrawdopAktywacji, presja);
             var euklides = new OdlegloscEuklidesowa();
             var odleglosci = new OdleglosciPomiedzyMrowkami(mrowki, euklides);
+            //var sirakoulis = new GreckaOdleglosc();
+            //var odleglosci = new OdleglosciPomiedzyMrowkami(mrowki, sirakoulis);
             var deltaT = 50;
             var kAlfa = 0.5;
-            var srednieOdleglosciOdInnychAgentow = new SrednieOdleglosciOdCzasu(czas, srednieDopasowaniaWCzasie, new KonfiguracjaSredniejOdlOdCzasu()
-            {
-                IleJednostekCzasuSpogladacWstecz = deltaT,
-                SposobOkreslaniaWartosciPrzedUaktywnieniem = new NajsredniejszaOdleglosc(mrowki, odleglosci), // str.11, 12 - stałe 0.5coś, 0.4coś? Ale zupełnie nie działają u mnie, średnia odl. dla t=50 ~2.coś, więc wyniki są zawsze ujemne -> wszystko się zawsze rusza?
-                StopienWplywuRoznicySrednichNaWynikWDanejJednostceCzasu = kAlfa
-            });
-            //var srednieOdleglosciOdInnychAgentow = new SrednieOdleglosciDlaAgentow(mrowki, odleglosci);
+            //var srednieOdleglosciOdInnychAgentow = new SrednieOdleglosciOdCzasu(czas, srednieDopasowaniaWCzasie, new KonfiguracjaSredniejOdlOdCzasu()
+            //{
+            //    IleJednostekCzasuSpogladacWstecz = deltaT,
+            //    SposobOkreslaniaWartosciPrzedUaktywnieniem = new NajsredniejszaOdleglosc(mrowki, odleglosci), // str.11, 12 - stałe 0.5coś, 0.4coś? Ale zupełnie nie działają u mnie, średnia odl. dla t=50 ~2.coś, więc wyniki są zawsze ujemne -> wszystko się zawsze rusza?
+            //    StopienWplywuRoznicySrednichNaWynikWDanejJednostceCzasu = kAlfa
+            //});
+            var srednieOdleglosciOdInnychAgentow = new SrednieOdleglosciDlaAgentow(mrowki, odleglosci);
             var slownikOdleglosci = new SlownikOdleglosci(mrowki, odleglosci);
             var oceniacz = new Oceniacz(slownikOdleglosci, srednieOdleglosciOdInnychAgentow, sasiedztwo);
             var stopienZachlannosci = 0.9;
@@ -72,7 +74,10 @@ namespace MyCSetophylax
                     oceniacz, przestrzen, sasiedztwo, maszynaLosujaca);
                 przemieszczacz = zachlannyPrzemieszczacz;
             }
-            var okreslaczKlas = new OpoznionyOkreslaczKlas(czas, 4900, new GlobalnyPodobienstwowyOkreslaczKlas(odleglosci, sasiedztwo, czas, true) { MinProgLicznosci = 10 });//*/new OpoznionyOkreslaczKlas(czas, 0, new OkreslaczKlas(sasiedztwo));
+            var okreslaczKlas = 
+                //new OpoznionyOkreslaczKlas(czas, 4900, new GlobalnyPodobienstwowyOkreslaczKlas(odleglosci, sasiedztwo, czas, true) { MinProgLicznosci = 10 });
+                new OpoznionyOkreslaczKlas(czas, 4950, new OkreslaczKlas(sasiedztwo));
+            AktywatorUwzglPodobienstwo sprawdzaczNiepodobienstwa = /*null;//*/ new AktywatorUwzglPodobienstwo(sasiedztwo, odleglosci, 15, 0.5);
 
             // Grupowanie właściwe
             while (!czas.CzyUplynal)
@@ -100,7 +105,10 @@ namespace MyCSetophylax
                 var pozycjeDoZmianyPozycji = new List<(int, int)>();
                 foreach (var pozycja in ocenyPozycji.Keys)
                 {
-                    if (aktywator.CzyAktywowac(ocenyPozycji[pozycja]))
+                    var (x, y) = pozycja;
+                    var mrowka = przestrzen[y][x];
+                    var czyNiepodobneIstnieja = sprawdzaczNiepodobienstwa?.CzyAktywowac(mrowka, pozycja) ?? false;
+                    if (czyNiepodobneIstnieja || aktywator.CzyAktywowac(ocenyPozycji[pozycja]))
                     {
                         pozycjeDoZmianyPozycji.Add(pozycja);
                     }
@@ -154,7 +162,7 @@ namespace MyCSetophylax
             wyswietlaczKlasa.Wyswietl(przestrzen);
             Console.WriteLine();
 
-            Func<Mrowka, string> okreslaczKlasyDocelowej = OkreslaczKlasyDocelowejWin;
+            Func<Mrowka, string> okreslaczKlasyDocelowej = OkreslaczKlasyDocelowejIrysow;
             var reprezentacjaKlDocelowa = new ReprezentacjaKlasaDocelowa(okreslaczKlasyDocelowej);
             var wyswietlaczKlDocelowa = new WyswietlaczPrzestrzeni(reprezentacjaKlDocelowa);
             wyswietlaczKlDocelowa.Wyswietl(przestrzen);

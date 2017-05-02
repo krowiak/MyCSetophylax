@@ -90,13 +90,3 @@ namespace MyCSetophylax.Przemieszczenie
         }
     }
 }
-
-
-
-//let przemiescZachlannieWlasciwe funOceny(przestrzen:Przestrzen) sasiedztwo(mrowkaX, mrowkaY) =
-//    let przemieszczanaMrowka = przestrzen.[mrowkaX, mrowkaY] |> Option.get
-//    let pusteSasiedztwo = sasiedztwo |> PustePolaZSasiedztwa przestrzen
-//    if Seq.length pusteSasiedztwo > 0 then
-//        przestrzen.[mrowkaX, mrowkaY] <- None
-//        let (najlepszeX, najlepszeY) = pusteSasiedztwo |> Seq.maxBy(funOceny przemieszczanaMrowka)
-//        przestrzen.[najlepszeX, najlepszeY] <- Some przemieszczanaMrowka
