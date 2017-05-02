@@ -17,13 +17,14 @@ namespace MyCSetophylax.Klasy
         private Dictionary<int, List<Mrowka>> mrowkiKlasAktIter;
         private int popIteracja;
 
-        public GlobalnyPodobienstwowyOkreslaczKlas(IOdleglosc<Mrowka> odleglosc, Sasiedztwo sasiedztwo, Czas czas)
+        public GlobalnyPodobienstwowyOkreslaczKlas(IOdleglosc<Mrowka> odleglosc, Sasiedztwo sasiedztwo, Czas czas, bool minProgGlobalny=false)
         {
             this.odleglosc = odleglosc;
             this.sasiedztwo = sasiedztwo;
             this.czas = czas;
             popIteracja = 0;
             mrowkiKlasAktIter = new Dictionary<int, List<Mrowka>>();
+            MinProgGlobalny = minProgGlobalny;
         }
 
         public int MinProgLicznosci
@@ -31,6 +32,12 @@ namespace MyCSetophylax.Klasy
             get;
             set;
         } = 5;
+
+        public bool MinProgGlobalny
+        {
+            get;
+            set;
+        }
 
         public int OkreslKlase(Mrowka mrowka, (int x, int y) pozycjaMrowki)
         {
@@ -50,8 +57,9 @@ namespace MyCSetophylax.Klasy
                     .OrderByDescending(grupa => grupa.Count())
                     .ToList();
                 var satysfakcjonujacoLiczneGrupy = grupyPoKlasach
-                    .Where(grupa => grupa.Count() > MinProgLicznosci)
-                    .ToArray();
+                    .Where(grupa => 
+                        (MinProgGlobalny ? OkreslIleMrowekKlasyWPopIter(grupa.Key) : grupa.Count()) > MinProgLicznosci
+                    ).ToArray();
                 if (satysfakcjonujacoLiczneGrupy.Any())
                 {
                     if (satysfakcjonujacoLiczneGrupy.Length == 1)
@@ -115,6 +123,18 @@ namespace MyCSetophylax.Klasy
                 listaKlasy = listaKlasy.Where(innaMrowka => innaMrowka.Id != mrowka.Id);
             }
             return listaKlasy.Average(innaMrowka => odleglosc.OkreslOdleglosc(mrowka, innaMrowka));
+        }
+
+        private int OkreslIleMrowekKlasyWPopIter(int klasa)
+        {
+            if (mrowkiKlasPopIter.TryGetValue(klasa, out var listaMrowek))
+            {
+                return listaMrowek.Count;
+            }
+            else
+            {
+                return 0;
+            }
         }
     }
 }
