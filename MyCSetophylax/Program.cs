@@ -22,13 +22,15 @@ namespace MyCSetophylax
         {
             var maszynaLosujaca = new Random();
             List<Mrowka> mrowki;
-            using (var strumienDanych = File.OpenRead(@"PlikiDanych\irisBezSmieci.data"))
+            Dictionary<int, int> slownikKlasDocelowych = new Dictionary<int, int>();
+            using (var strumienDanych = File.OpenRead(@"PlikiDanych\iris.data"))
             {
-                var parser = new ParserDanych();
+                var parser = new ParserDanych() { DaneZawierajaEtykiety = true };
                 var niestandaryzowaneDane = parser.ParsujDane(strumienDanych);
                 var zScore = new StandaryzatorZScore();
                 IEnumerable<double[]> wektoryDanych = zScore.Standaryzuj(niestandaryzowaneDane);
                 mrowki = wektoryDanych.Select((wektor, indeks) => new Mrowka(indeks, wektor)).ToList();
+                slownikKlasDocelowych = parser.OdczytaneEtykiety;
             }
 
             var sX = 2;
@@ -74,10 +76,10 @@ namespace MyCSetophylax
                     oceniacz, przestrzen, sasiedztwo, maszynaLosujaca);
                 przemieszczacz = zachlannyPrzemieszczacz;
             }
-            var okreslaczKlas = 
-                //new OpoznionyOkreslaczKlas(czas, 4900, new GlobalnyPodobienstwowyOkreslaczKlas(odleglosci, sasiedztwo, czas, true) { MinProgLicznosci = 10 });
+            var okreslaczKlas = //new OkreslaczKlas(sasiedztwo);
+                //new OpoznionyOkreslaczKlas(czas, 4900, new GlobalnyPodobienstwowyOkreslaczKlas(odleglosci, sasiedztwo, czas, true) { MinProgLicznosci = 20 });
                 new OpoznionyOkreslaczKlas(czas, 4950, new OkreslaczKlas(sasiedztwo));
-            AktywatorUwzglPodobienstwo sprawdzaczNiepodobienstwa = /*null;//*/ new AktywatorUwzglPodobienstwo(sasiedztwo, odleglosci, 15, 0.5);
+            AktywatorUwzglPodobienstwo sprawdzaczNiepodobienstwa = null;//*/ new AktywatorUwzglPodobienstwo(sasiedztwo, odleglosci, 15, 0.5);
 
             // Grupowanie właściwe
             while (!czas.CzyUplynal)
@@ -162,7 +164,7 @@ namespace MyCSetophylax
             wyswietlaczKlasa.Wyswietl(przestrzen);
             Console.WriteLine();
 
-            Func<Mrowka, string> okreslaczKlasyDocelowej = OkreslaczKlasyDocelowejIrysow;
+            Func<Mrowka, string> okreslaczKlasyDocelowej = KolorujOkreslaczKlasyDocelowej(TworzOkreslaczKlasyDocelowej(slownikKlasDocelowych)); //OkreslaczKlasyDocelowejIrysow;
             var reprezentacjaKlDocelowa = new ReprezentacjaKlasaDocelowa(okreslaczKlasyDocelowej);
             var wyswietlaczKlDocelowa = new WyswietlaczPrzestrzeni(reprezentacjaKlDocelowa);
             wyswietlaczKlDocelowa.Wyswietl(przestrzen);
@@ -171,6 +173,61 @@ namespace MyCSetophylax
             Console.ReadKey();
         }
 
+        private static Func<Mrowka, string> TworzOkreslaczKlasyDocelowej(Dictionary<int, int> slownikKlas)
+        {
+            return (Mrowka mrowka) =>
+            {
+                if (mrowka == null)
+                {
+                    return String.Empty;
+                }
+                else
+                {
+                    return slownikKlas.TryGetValue(mrowka.Id, out int klasa) ? klasa.ToString() : "?";
+                }
+            };
+        }
+
+        private static Func<Mrowka, string> KolorujOkreslaczKlasyDocelowej(Func<Mrowka, string> okreslacz)
+        {
+            return (Mrowka mrowka) =>
+            {
+                var wartosc = okreslacz(mrowka);
+
+                if (int.TryParse(wartosc, out int wartoscNum))
+                {
+                    switch (wartoscNum % 4)
+                    {
+                        case 0:
+                            Console.BackgroundColor = ConsoleColor.Green;
+                            break;
+                        case 1:
+                            Console.BackgroundColor = ConsoleColor.Yellow;
+                            break;
+                        case 2:
+                            Console.BackgroundColor = ConsoleColor.Red;
+                            break;
+                        case 3:
+                            Console.BackgroundColor = ConsoleColor.Blue;
+                            break;
+                    }
+                }
+                else
+                {
+                    if (wartosc == String.Empty)
+                    {
+                        Console.ResetColor();
+                    }
+                    else
+                    {
+                        Console.BackgroundColor = ConsoleColor.White;
+                    }
+                }
+
+                return wartosc;
+            };
+         }
+
         private static string OkreslaczKlasyDocelowejIrysow(Mrowka mrowka)
         {
             switch (mrowka?.Id)
@@ -178,17 +235,20 @@ namespace MyCSetophylax
                 case null:
                     Console.ResetColor();
                     return String.Empty;
-                case int id when id < 50:
+                case int id when id < 100:
                     Console.BackgroundColor = ConsoleColor.Green;
                     return "1";
-                case int id when id < 100:
+                case int id when id < 200:
                     Console.BackgroundColor = ConsoleColor.Yellow;
                     return "2";
-                case int id when id < 150:
+                case int id when id < 300:
                     Console.BackgroundColor = ConsoleColor.Red;
                     return "3";
-                default:
+                case int id when id < 400:
                     Console.BackgroundColor = ConsoleColor.Blue;
+                    return "4";
+                default:
+                    Console.BackgroundColor = ConsoleColor.White;
                     return "?";
             }
         }
