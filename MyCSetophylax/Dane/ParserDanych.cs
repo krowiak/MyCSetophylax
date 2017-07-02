@@ -18,6 +18,7 @@ namespace MyCSetophylax.Dane
             wartosciSlow = new Dictionary<(int kolumna, string wartosc), int>();
             maksWartosciSlowKolumn = new Dictionary<int, int>();
             Separator = ',';
+            Limit = null;
         }
 
         public char Separator
@@ -36,6 +37,12 @@ namespace MyCSetophylax.Dane
         {
             get;
             private set;
+        }
+
+        public int? Limit
+        {
+            get;
+            set;
         }
 
         private int PobierzNowaWartoscSlowa(int kolumna)
@@ -83,6 +90,11 @@ namespace MyCSetophylax.Dane
                 int numerKolejny = 0;
                 while (!czytnik.EndOfStream)
                 {
+                    if (numerKolejny >= Limit)
+                    {
+                        break;
+                    }
+
                     var liniaStr = czytnik.ReadLine();
                     var podzielonaLinia = liniaStr.Split(new[] { Separator });
                     var dlugoscWektora = DaneZawierajaEtykiety ? podzielonaLinia.Length : podzielonaLinia.Length - 1;

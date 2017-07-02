@@ -9,13 +9,11 @@ namespace MyCSetophylax.Aktywacja
     public class Aktywator
     {
         private readonly double pAktywacji;
-        private readonly Czas czas;
         private readonly Random los;
         private readonly IPresja presja;
 
-        public Aktywator(Czas czas, Random los, double bazowePrawdopodobienstwoAktywacji, IPresja presjaAktywacji)
+        public Aktywator(Random los, double bazowePrawdopodobienstwoAktywacji, IPresja presjaAktywacji)
         {
-            this.czas = czas;
             this.los = los;
             pAktywacji = bazowePrawdopodobienstwoAktywacji;
             presja = presjaAktywacji;

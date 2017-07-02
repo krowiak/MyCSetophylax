@@ -20,7 +20,9 @@ namespace MyCSetophylax.Dane
         // http://sebastianraschka.com/Articles/2014_about_feature_scaling.html#about-standardization
         private double OkreslZScoreWartosci(double wartosc, double srednia, double odchylenieStandardowe)
         {
-            return (wartosc - srednia) / odchylenieStandardowe;
+            var roznica = wartosc - srednia;
+            if (roznica == 0 && odchylenieStandardowe == 0) return 0;
+            else return (wartosc - srednia) / odchylenieStandardowe;
         }
 
         private double[] OkreslZScoreWymiaru(double[] dane)

@@ -12,12 +12,12 @@ namespace MyCSetophylax.Przemieszczenie
     {
         private readonly double szansaNaZachlannosc;
         private readonly IPrzemieszczacz alternatywnyPrzemieszczacz;
-        private readonly Oceniacz oceniacz;
+        private readonly IOceniacz oceniacz;
         private readonly Przestrzen przestrzen;
         private readonly Sasiedztwo sasiedztwo;
         private readonly Random los;
 
-        public ZachlannyPrzemieszczacz(double szansaNaZachlannosc, IPrzemieszczacz alternatywnyPrzemieszczacz, Oceniacz oceniacz,
+        public ZachlannyPrzemieszczacz(double szansaNaZachlannosc, IPrzemieszczacz alternatywnyPrzemieszczacz, IOceniacz oceniacz,
             Przestrzen przestrzen, Sasiedztwo sasiedztwo, Random los)
         {
             this.szansaNaZachlannosc = szansaNaZachlannosc;

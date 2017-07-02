@@ -32,6 +32,26 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -49,9 +69,12 @@
   <ItemGroup>
     <Compile Include="Aktywacja\Aktywator.cs" />
     <Compile Include="Aktywacja\AktywatorUwzglPodobienstwo.cs" />
+    <Compile Include="Aktywacja\AltAktywator.cs" />
     <Compile Include="Aktywacja\IPresja.cs" />
     <Compile Include="Aktywacja\PresjaZaleznaOdCzasu.cs" />
     <Compile Include="Aktywacja\StalaPresja.cs" />
+    <Compile Include="Dopasowanie\AltOceniacz.cs" />
+    <Compile Include="Dopasowanie\IOceniacz.cs" />
     <Compile Include="Dopasowanie\SlownikOdleglosci.cs" />
     <Compile Include="Dopasowanie\Oceniacz.cs" />
     <Compile Include="Klasy\GlobalnyPodobienstwowyOkreslaczKlas.cs" />
@@ -62,6 +85,7 @@
     <Compile Include="Klasy\PodobienstwowyOkreslaczKlasPlus.cs" />
     <Compile Include="Klasy\PodobienstwowyOkreslaczKlas.cs" />
     <Compile Include="KonkretneOdleglosci\GreckaOdleglosc.cs" />
+    <Compile Include="KonkretneOdleglosci\MrowkowaOdleglosc.cs" />
     <Compile Include="Przemieszczenie\IPrzemieszczacz.cs" />
     <Compile Include="Przemieszczenie\LosowyPrzemieszczacz.cs" />
     <Compile Include="Przemieszczenie\ZachlannyPrzemieszczacz.cs" />
@@ -82,8 +106,8 @@
     <Compile Include="Dane\ParserDanych.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="KonkretneOdleglosci\OdleglosciPomiedzyMrowkami.cs" />
     <Compile Include="SrednieOdleglosci\NajsredniejszaOdleglosc.cs" />
+    <Compile Include="SrednieOdleglosci\SredniaPodzbioru.cs" />
     <Compile Include="SrednieOdleglosci\SrednieOdleglosciDlaAgentow.cs" />
     <Compile Include="SrednieOdleglosci\SrednieOdleglosciOdCzasu.cs" />
     <Compile Include="Dane\StandaryzatorZScore.cs" />
@@ -98,6 +122,12 @@
     <None Include="PlikiDanych\irisBezSmieci.data">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="PlikiDanych\soybean-small.data">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="PlikiDanych\wine-etykiety.data">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="PlikiDanych\WINO.data">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -108,6 +138,18 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="PlikiDanych\gupieDane.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="PlikiDanych\kdd1000.txt" />
+    <Content Include="PlikiDanych\kdd400.txt" />
+    <Content Include="PlikiDanych\kddcup.data_10_percent.txt" />
+    <Content Include="PlikiDanych\smiecdane150mikro.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="PlikiDanych\smiecdane150p.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="PlikiDanych\smiecdane300p.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
