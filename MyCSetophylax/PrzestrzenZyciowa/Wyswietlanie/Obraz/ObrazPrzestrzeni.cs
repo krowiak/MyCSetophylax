@@ -64,7 +64,7 @@ namespace MyCSetophylax.PrzestrzenZyciowa.Wyswietlanie.Obraz
                 {
                     for (int x = 0; x < przestrzen.DlugoscBoku; x++)
                     {
-                        if (przestrzen[x][y] is Mrowka mrowka)
+                        if (przestrzen[y][x] is Mrowka mrowka)
                         {
                             int posX = x * DlugoscBokuPola;
                             int posY = y * DlugoscBokuPola;
