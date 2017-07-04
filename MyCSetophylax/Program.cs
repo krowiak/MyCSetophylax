@@ -6,9 +6,11 @@ using MyCSetophylax.KonkretneOdleglosci;
 using MyCSetophylax.Przemieszczenie;
 using MyCSetophylax.PrzestrzenZyciowa;
 using MyCSetophylax.PrzestrzenZyciowa.Wyswietlanie;
+using MyCSetophylax.PrzestrzenZyciowa.Wyswietlanie.Obraz;
 using MyCSetophylax.SrednieOdleglosci;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -27,13 +29,13 @@ namespace MyCSetophylax
                 //@"PlikiDanych\smiecdane300p.txt";
                 //@"PlikiDanych\smiecdane150p.txt";
                 //@"PlikiDanych\smiecdane150mikro.txt";
-                //@"E:\kddcup.data_10_percent.txt";
-                //@"E:\kdd400.txt";
-                @"E:\kdd1000.txt";
+                //@"PlikiDanych\kddcup.data_10_percent.txt";
+                //@"PlikiDanych\kdd400.txt";
+                //@"PlikiDanych\kdd1000.txt";
                 //@"E:\Pobrane\adult.data";
                 //@"PlikiDanych\soybean-small.data";
                 //@"PlikiDanych\iris.data";
-                //@"PlikiDanych\wine-etykiety.data";
+                @"PlikiDanych\wine-etykiety.data";
             using (var strumienDanych = File.OpenRead(sciezkaDoDanych))
             {
                 var parser = new ParserDanych() { DaneZawierajaEtykiety = true };
@@ -43,27 +45,61 @@ namespace MyCSetophylax
                 mrowki = wektoryDanych.Select((wektor, indeks) => new Mrowka(indeks, wektor)).ToList();
                 slownikKlasDocelowych = parser.OdczytaneEtykiety;
             }
-            
-            var sX = 1;
-            var sY = 1;
+
+            var ladnePedzelki = new List<Brush>()
+            {
+                Brushes.AliceBlue, Brushes.Beige, Brushes.BurlyWood,
+                Brushes.Chocolate, Brushes.Coral, Brushes.Crimson,
+                Brushes.DarkGoldenrod, Brushes.DarkKhaki, Brushes.DeepPink,
+                Brushes.FloralWhite, Brushes.Gainsboro, Brushes.GreenYellow,
+                Brushes.Lavender, Brushes.LemonChiffon, Brushes.LightSeaGreen,
+                Brushes.MediumSpringGreen, Brushes.Orange, Brushes.PapayaWhip,
+                Brushes.PeachPuff, Brushes.Plum, Brushes.Salmon,
+                Brushes.Turquoise, Brushes.Wheat, Brushes.Yellow
+            };
+
+#region wyswietlanie
+            Func<Mrowka, string> okreslaczKlasyDocelowej = KolorujOkreslaczKlasyDocelowej(TworzOkreslaczKlasyDocelowej(slownikKlasDocelowych));
+
+            var reprezentacjaId = new ReprezentacjaIdMrowki();
+            var reprezentacjaKlDocelowa = new ReprezentacjaKlasaDocelowa(okreslaczKlasyDocelowej);
+            var reprezentacjaKlasa = new ReprezentacjaKlasaMrowki();
+
+            var wylaczoneWyswietlanie = new WylaczoneWyswietlanie();
+
+            long ticks = DateTime.Now.Ticks;
+            Directory.CreateDirectory("wyniki");
+            var obrazPrzestrzeniIdPrzed = wylaczoneWyswietlanie; //new ObrazPrzestrzeni(ladnePedzelki, reprezentacjaId, $"{ticks}-id-przed.bmp");
+            var obrazPrzestrzeniId = new ObrazPrzestrzeni(ladnePedzelki, reprezentacjaId, $"wyniki\\{ticks}-id.bmp");
+            var obrazPrzestrzeniKlDocelowa = new ObrazPrzestrzeni(ladnePedzelki, reprezentacjaKlDocelowa, 
+                new SlownikowyOkreslaczPedzla(slownikKlasDocelowych, (mrowka) => mrowka.Id, 0), $"wyniki\\{ticks}-klasa-docelowa.bmp");
+            var obrazPrzestrzeniKlWynikowa = new ObrazPrzestrzeni(ladnePedzelki, reprezentacjaKlasa, $"wyniki\\{ticks}-klasa-wynikowa.bmp");
+
+            var wyswietlaczIdPrzed = wylaczoneWyswietlanie; //new WyswietlaczPrzestrzeni(reprezentacjaId);
+            var wyswietlaczId = new WyswietlaczPrzestrzeni(reprezentacjaId);
+            var wyswietlaczKlasa = new WyswietlaczPrzestrzeni(reprezentacjaKlasa);
+            var wyswietlaczKlDocelowa = new WyswietlaczPrzestrzeni(reprezentacjaKlDocelowa);
+#endregion
+
+            var sX = 2;
+            var sY = 2;
             var przestrzen = Przestrzen.StworzPrzestrzenDla(mrowki.Count);
             var sasiedztwo = new Sasiedztwo(przestrzen, sX, sY);
-            var reprezentacjaId = new ReprezentacjaIdMrowki();
-            var wyswietlaczId = new WyswietlaczPrzestrzeni(reprezentacjaId);
             przestrzen.RozmiescMrowki(mrowki, maszynaLosujaca);
-            wyswietlaczId.Wyswietl(przestrzen);
+            wyswietlaczIdPrzed.Wyswietl(przestrzen);
+            obrazPrzestrzeniIdPrzed.Wyswietl(przestrzen);
 
             Console.WriteLine();
             Console.WriteLine("Grupowanie...");
 
             // Przygotowanie całego śmiecia
-            var liczbaIteracji = 20000;
+            var liczbaIteracji = 1000;
             var czas = new Czas(liczbaIteracji);
             var srednieDopasowaniaWCzasie = new SrednieDopasowaniaMrowek();
             var kLambda = 1.0;
             var presja = new StalaPresja(2);//*/new PresjaZaleznaOdCzasu(czas, srednieDopasowaniaWCzasie, kLambda);
             var bazowePrawdopAktywacji = 0.1;
-            var aktywator = /*new AltAktywator(maszynaLosujaca, presja);//*/new Aktywator(maszynaLosujaca, bazowePrawdopAktywacji, presja);
+            var aktywator = new AltAktywator(maszynaLosujaca, presja);//*/new Aktywator(maszynaLosujaca, bazowePrawdopAktywacji, presja);
             var deltaT = 50;
             var kAlfa = 0.5;
             var euklides = new MrowkowaOdleglosc(new OdlegloscEuklidesowa());
@@ -77,6 +113,7 @@ namespace MyCSetophylax
             var srednieOdleglosciOdInnychAgentow = new SrednieOdleglosciDlaAgentow(mrowki, miaraOdleglosci);
             //var srednieOdleglosciOdInnychAgentow = new NajsredniejszaOdleglosc(mrowki, miaraOdleglosci);
             //var srednieOdleglosciOdInnychAgentow = new SredniaPodzbioru(mrowki, miaraOdleglosci, 0.05, maszynaLosujaca);
+            //var srednieOdleglosciOdInnychAgentow = new StalaUdajacaSrednia(5.7070232700742309);
             var oceniacz = /*new AltOceniacz(miaraOdleglosci, srednieOdleglosciOdInnychAgentow, sasiedztwo);//*/new Oceniacz(miaraOdleglosci, srednieOdleglosciOdInnychAgentow, sasiedztwo);
             var stopienZachlannosci = 0.9;
             IPrzemieszczacz przemieszczacz;
@@ -153,41 +190,28 @@ namespace MyCSetophylax
                     var klasa = mrowkaIKlasa.Value;
                     mrowka.Klasa = klasa;
                 }
-
-                ////if (czas.Aktualny > 1900)
-                ////{
-                //Console.WriteLine();
-                ////var reprezentacjaKlasaa = new ReprezentacjaKlasaMrowki();
-                ////var wyswietlaczKlasaa = new WyswietlaczPrzestrzeni(reprezentacjaKlasaa);
-                ////wyswietlaczKlasaa.Wyswietl(przestrzen);
-                //wyswietlaczId.Wyswietl(przestrzen);
-                //Console.ReadLine();
-                ////}
+                
                 if (czas.Aktualny % 500 == 0)
                 {
                     Console.WriteLine($"Koniec iteracji {czas.Aktualny}.");
                 }
                 czas.Uplywaj();
+                Console.WriteLine(stopwatch.ElapsedMilliseconds);
             }
             stopwatch.Stop();
 
             Console.WriteLine();
             Console.WriteLine($"Pogrupowano! {stopwatch.ElapsedMilliseconds}ms");
 
+            obrazPrzestrzeniId.Wyswietl(przestrzen);
             wyswietlaczId.Wyswietl(przestrzen);
             Console.WriteLine();
 
-            var reprezentacjaKlasa = new ReprezentacjaKlasaMrowki();
-            var wyswietlaczKlasa = new WyswietlaczPrzestrzeni(reprezentacjaKlasa);
+            obrazPrzestrzeniKlWynikowa.Wyswietl(przestrzen);
             wyswietlaczKlasa.Wyswietl(przestrzen);
             Console.WriteLine();
 
-            Func<Mrowka, string> okreslaczKlasyDocelowej =
-                //OkreslaczKlasyDocelowejSmiecdanych400;
-            KolorujOkreslaczKlasyDocelowej(TworzOkreslaczKlasyDocelowej(slownikKlasDocelowych));
-            //OkreslaczKlasyDocelowejIrysow;
-            var reprezentacjaKlDocelowa = new ReprezentacjaKlasaDocelowa(okreslaczKlasyDocelowej);
-            var wyswietlaczKlDocelowa = new WyswietlaczPrzestrzeni(reprezentacjaKlDocelowa);
+            obrazPrzestrzeniKlDocelowa.Wyswietl(przestrzen);
             wyswietlaczKlDocelowa.Wyswietl(przestrzen);
 
             Console.Beep();

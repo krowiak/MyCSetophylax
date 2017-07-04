@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MyCSetophylax.PrzestrzenZyciowa.Wyswietlanie;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MyCSetophylax.PrzestrzenZyciowa.Wyswietlanie
 {
-    public class WyswietlaczPrzestrzeni
+    public class WyswietlaczPrzestrzeni : IWyswietlaczPrzestrzeni
     {
         private IReprezentacjaPola reprezentacja;
 
