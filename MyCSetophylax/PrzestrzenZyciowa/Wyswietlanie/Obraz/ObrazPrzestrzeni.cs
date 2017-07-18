@@ -106,7 +106,7 @@ namespace MyCSetophylax.PrzestrzenZyciowa.Wyswietlanie.Obraz
             {
                 if (pedzleKlas.Count >= dostepnePedzle.Count)
                 {
-                    return znanyKolor;
+                    return nowyKolor;
                 }
                 else
                 {

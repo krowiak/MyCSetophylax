@@ -17,6 +17,9 @@ namespace MyCSetophylax.SrednieOdleglosci
         private readonly ISrednieOdleglosci zrodloWartPoczatkowych;
         private readonly Czas czas;
 
+        private double ostatniaObliczonaWartosc = 0.0;
+        private int czasDlaKtoregoPoliczonoOstWartosc = -1;
+
         public SrednieOdleglosciOdCzasu(Czas czas, SrednieDopasowaniaMrowek aktualneDopasowaniaMrowek, KonfiguracjaSredniejOdlOdCzasu konfiguracja)
         {
             this.czas = czas;
@@ -29,23 +32,33 @@ namespace MyCSetophylax.SrednieOdleglosci
 
         public double OkreslSredniaOdleglosc(Mrowka sprawdzanaMrowka)
         {
-            if (czas.Aktualny <= deltaT)
+            if (czasDlaKtoregoPoliczonoOstWartosc == czas.Aktualny)
             {
-                // Im bardziej na to patrzę, tym bardziej rozsądne wydaje mi się, żeby raczej używać stałej, choćby i 0.
-                // Pierwsze kilka iteracji i tak jest praktycznie bez znaczenia.
-                var wartoscPoczatkowa = zrodloWartPoczatkowych.OkreslSredniaOdleglosc(sprawdzanaMrowka);
-                poprzednieWartosci[czas.Aktualny] = wartoscPoczatkowa;
-                return wartoscPoczatkowa;// - kAlfa * wartoscPoczatkowa;
+                return ostatniaObliczonaWartosc;
             }
             else
             {
-                int staryCzas = czas.Aktualny - deltaT;
-                double wartHistorycznaDopasowania = srednieDopasowaniaOdCzasu[staryCzas];
-                double roznicaSrednich = wartHistorycznaDopasowania - srednieDopasowaniaOdCzasu[czas.Aktualny - 1];  // Jeśli -1 tu nadal jest: to nieprzemyślana poprawka na szybko, bo średniej dla danego aktualnego t jeszcze nie było. Przemyśleć i ew. poprawić.
-                double wartHistorycznaSredniejOdl = poprzednieWartosci[staryCzas];
-                double wartAktualna = wartHistorycznaSredniejOdl - kAlfa * roznicaSrednich;
-                poprzednieWartosci[czas.Aktualny] = wartAktualna;
-                return wartAktualna;
+                if (czas.Aktualny <= deltaT)
+                {
+                    // Im bardziej na to patrzę, tym bardziej rozsądne wydaje mi się, żeby raczej używać stałej, choćby i 0.
+                    // Pierwsze kilka iteracji i tak jest praktycznie bez znaczenia.
+                    var wartoscPoczatkowa = zrodloWartPoczatkowych.OkreslSredniaOdleglosc(sprawdzanaMrowka);
+                    poprzednieWartosci[czas.Aktualny] = wartoscPoczatkowa;
+                    return wartoscPoczatkowa;// - kAlfa * wartoscPoczatkowa;
+                }
+                else
+                {
+                    int staryCzas = czas.Aktualny - deltaT;
+                    double wartHistorycznaDopasowania = srednieDopasowaniaOdCzasu[staryCzas];
+                    double roznicaSrednich = wartHistorycznaDopasowania - srednieDopasowaniaOdCzasu[czas.Aktualny - 1];  // Jeśli -1 tu nadal jest: to nieprzemyślana poprawka na szybko, bo średniej dla danego aktualnego t jeszcze nie było. Przemyśleć i ew. poprawić.
+                    double wartHistorycznaSredniejOdl = poprzednieWartosci[staryCzas];
+                    double wartAktualna = wartHistorycznaSredniejOdl - kAlfa * roznicaSrednich;
+                    poprzednieWartosci[czas.Aktualny] = wartAktualna;
+
+                    czasDlaKtoregoPoliczonoOstWartosc = czas.Aktualny;
+                    ostatniaObliczonaWartosc = wartAktualna;
+                    return ostatniaObliczonaWartosc;
+                }
             }
         }
     }

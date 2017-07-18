@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace MyCSetophylax
 {
+    [Serializable]
     public class Mrowka
     {
         public Mrowka(int id, double[] dane)

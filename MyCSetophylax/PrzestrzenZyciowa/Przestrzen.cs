@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace MyCSetophylax.PrzestrzenZyciowa
 {
+    [Serializable]
     public class Przestrzen
     {
         private WierszPrzestrzeni[] wiersze;
@@ -59,6 +60,7 @@ namespace MyCSetophylax.PrzestrzenZyciowa
             }
         }
 
+        [Serializable]
         public class WierszPrzestrzeni
         {
             private Mrowka[] pola;
