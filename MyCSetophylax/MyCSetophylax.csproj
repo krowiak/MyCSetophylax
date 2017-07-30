@@ -70,6 +70,7 @@
     <Compile Include="Aktywacja\Aktywator.cs" />
     <Compile Include="Aktywacja\AktywatorUwzglPodobienstwo.cs" />
     <Compile Include="Aktywacja\AltAktywator.cs" />
+    <Compile Include="Aktywacja\IAktywator.cs" />
     <Compile Include="Aktywacja\IPresja.cs" />
     <Compile Include="Aktywacja\PresjaZaleznaOdCzasu.cs" />
     <Compile Include="Aktywacja\StalaPresja.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="Klasy\OpoznionyOkreslaczKlas.cs" />
     <Compile Include="Klasy\PodobienstwowyOkreslaczKlasPlus.cs" />
     <Compile Include="Klasy\PodobienstwowyOkreslaczKlas.cs" />
+    <Compile Include="KonfiguracjaGrupowania.cs" />
     <Compile Include="KonkretneOdleglosci\GreckaOdleglosc.cs" />
     <Compile Include="KonkretneOdleglosci\MrowkowaOdleglosc.cs" />
     <Compile Include="Przemieszczenie\IPrzemieszczacz.cs" />

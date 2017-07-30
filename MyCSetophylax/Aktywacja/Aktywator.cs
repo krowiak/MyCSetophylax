@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MyCSetophylax.Aktywacja
 {
-    public class Aktywator
+    public class Aktywator : IAktywator
     {
         private readonly double pAktywacji;
         private readonly Random los;

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MyCSetophylax.Aktywacja
 {
-    public class AltAktywator
+    public class AltAktywator : IAktywator
     {
         private readonly Random los;
         private readonly IPresja presja;

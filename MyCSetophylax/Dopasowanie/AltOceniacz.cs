@@ -1,4 +1,5 @@
-﻿using MyCSetophylax.PrzestrzenZyciowa;
+﻿using MyCSetophylax.KonkretneOdleglosci;
+using MyCSetophylax.PrzestrzenZyciowa;
 using MyCSetophylax.SrednieOdleglosci;
 using System;
 using System.Collections.Generic;
@@ -15,10 +16,10 @@ namespace MyCSetophylax.Dopasowanie
     public class AltOceniacz : IOceniacz
     {
         private readonly Sasiedztwo sasiedztwo;
-        private readonly SlownikOdleglosci sloOdleglosci;
+        private readonly IOdleglosc<Mrowka> sloOdleglosci;
         private readonly ISrednieOdleglosci srednieOdleglosci;
 
-        public AltOceniacz(SlownikOdleglosci slownikOdleglosci, ISrednieOdleglosci srednieOdleglosci, Sasiedztwo sasiedztwo)
+        public AltOceniacz(IOdleglosc<Mrowka> slownikOdleglosci, ISrednieOdleglosci srednieOdleglosci, Sasiedztwo sasiedztwo)
         {
             sloOdleglosci = slownikOdleglosci;
             this.srednieOdleglosci = srednieOdleglosci;
