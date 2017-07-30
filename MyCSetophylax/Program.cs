@@ -213,11 +213,11 @@ namespace MyCSetophylax
 
         static void Main(string[] args)
         {
-            string katalogDocelowy = DateTime.Now.ToString("yyy-MM-dd--hh-mm-ss");
+            string katalogDocelowy = DateTime.Now.ToString("yyy-MM-dd--HH-mm-ss");
             string sciezkaWynikow = $"wyniki\\{katalogDocelowy}\\";
             int liczbaIteracji = 5000;
             int liczbaPowtorzen = 1;
-            int zasiegWzroku = 1;
+            int zasiegWzroku = 2;
 
             var maszynaLosujaca = new Random();
             List<Mrowka> mrowki;
