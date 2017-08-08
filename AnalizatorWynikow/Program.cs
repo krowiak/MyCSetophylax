@@ -17,9 +17,9 @@ namespace AnalizatorWynikow
         {
             bool klasyfikujPoFakcie = false;
             string sciezkaDoFolderu =
-                @"E:\Dokumenty\visual studio 2017\Projects\MyCSetophylax\MyCSetophylax\bin\x64\Release\wyniki\wińa_s3\2017-07-29--12-55-43ASM2004_SA4CPrim_zadlugo";
+                @"E:\Dokumenty\visual studio 2017\Projects\MyCSetophylax\MyCSetophylax\bin\x64\Release\wyniki\ASM_2017\2017-08-07--15-45-10_wińa\ASM2017_A4C_s1";
             var dirInfo = new DirectoryInfo(sciezkaDoFolderu);
-            string sciezkaDoWynikow = "wyniki/analiza/";
+            string sciezkaDoWynikow = "wyniki/analiza/ASM2017/";
             if (klasyfikujPoFakcie)
             {
                 sciezkaDoWynikow = sciezkaDoWynikow + "pofakcie/";
