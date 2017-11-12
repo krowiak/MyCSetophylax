@@ -17,14 +17,38 @@ namespace AnalizatorWynikow
         {
             bool klasyfikujPoFakcie = false;
             string sciezkaDoFolderu =
-                @"E:\Dokumenty\visual studio 2017\Projects\MyCSetophylax\MyCSetophylax\bin\x64\Release\wyniki\ASM_2017\2017-08-07--15-45-10_wińa\ASM2017_A4C_s1";
+                @"E:\Dokumenty\visual studio 2017\Projects\MyCSetophylax\MyCSetophylax\bin\x64\Release\wyniki\kdd1000_merge25\s2\ASM2004_A4C";
             var dirInfo = new DirectoryInfo(sciezkaDoFolderu);
-            string sciezkaDoWynikow = "wyniki/analiza/ASM2017/";
+            string sciezkaDoWynikow = "wyniki/analiza/kdd1000_mini25/";
             if (klasyfikujPoFakcie)
             {
                 sciezkaDoWynikow = sciezkaDoWynikow + "pofakcie/";
             }
             string nazwaPlikuWynikowego = $"{dirInfo.Name}.txt";
+
+            // Czysty kod
+            // (zmienia nazwy plików z np. 3_wyniki.a4c na 13_wyniki.a4c itd.,
+            // bom chciał 10 powtórzeń z 15 połączyć, 
+            // a wszystkie numerowane od 0 i jakże tak do jednego folderu)
+            //Directory.CreateDirectory($"AAAARRRRR\\{dirInfo.Name}");
+            //var arrrrr = dirInfo.EnumerateFiles().ToList();
+            //foreach (var ar in arrrrr)
+            //{
+            //    string nname;
+            //    var aaar = ar.Name.Substring(0, 1);
+            //    var aarr = ar.Name.Substring(0, 2);
+            //    if (int.TryParse(aarr, out int licz))
+            //    {
+            //        nname = (licz + 10).ToString() + ar.Name.Substring(2);
+            //    }
+            //    else
+            //    {
+            //        nname = (int.Parse(aaar) + 10).ToString() + ar.Name.Substring(1);
+            //    }
+
+            //    ar.CopyTo($"AAAARRRRR\\{dirInfo.Name}\\{nname}");
+            //}
+            //return;
 
             var formatter = new BinaryFormatter();
             var plikiWynikow = dirInfo.EnumerateFiles("*.a4c");

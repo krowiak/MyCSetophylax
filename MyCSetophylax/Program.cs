@@ -295,9 +295,9 @@ namespace MyCSetophylax
         static void Main(string[] args)
         {
             string katalogDocelowy = DateTime.Now.ToString("yyy-MM-dd--HH-mm-ss");
-            string sciezkaWynikow = $"wyniki\\{katalogDocelowy}\\";
+            string sciezkaWynikow = $"wyniki\\{katalogDocelowy}\\kddplus15\\";
             int liczbaIteracji = 5000;
-            int liczbaPowtorzen = 100;
+            int liczbaPowtorzen = 15;
             int zasiegWzroku = 2;
 
             var maszynaLosujaca = new Random();
@@ -309,11 +309,12 @@ namespace MyCSetophylax
                 //@"PlikiDanych\smiecdane150mikro.txt";
                 //@"PlikiDanych\kddcup.data_10_percent.txt";
                 //@"PlikiDanych\kdd400.txt";
-                //@"PlikiDanych\kdd1000.txt";
-                //@"E:\Pobrane\adult.data";
+                @"PlikiDanych\kdd1000.txt";
                 //@"PlikiDanych\soybean-small.data";
+                //@"PlikiDanych\glass.data";
                 //@"PlikiDanych\iris.data";
-                @"PlikiDanych\wine-etykiety.data";
+                //@"PlikiDanych\wine-etykiety.data";
+                //@"PlikiDanych\new-thyroid-przestawione-klasy-na-koniec.data";
             using (var strumienDanych = File.OpenRead(sciezkaDoDanych))
             {
                 var parser = new ParserDanych() { DaneZawierajaEtykiety = true };
@@ -340,22 +341,23 @@ namespace MyCSetophylax
             Func<KonfiguracjaGrupowania> konfig_asm2017_a4c = () => Konfiguracja_A4C_2017(maszynaLosujaca, liczbaIteracji, zasiegWzroku, mrowki, miaraOdleglosci);
             Func<KonfiguracjaGrupowania> konfig_asm2017_sa4c = () => Konfiguracja_SA4C_2017(maszynaLosujaca, liczbaIteracji, zasiegWzroku, mrowki, miaraOdleglosci);
             Func<KonfiguracjaGrupowania> konfig_asm2017_sa4cprim = () => Konfiguracja_SA4CPrim_2017(maszynaLosujaca, liczbaIteracji, zasiegWzroku, mrowki, miaraOdleglosci);
-            Func<KonfiguracjaGrupowania> konfig_asm2017_a4c_s1 = () => Konfiguracja_A4C_2017(maszynaLosujaca, liczbaIteracji, 1, mrowki, miaraOdleglosci);
-            Func<KonfiguracjaGrupowania> konfig_asm2017_sa4c_s1 = () => Konfiguracja_SA4C_2017(maszynaLosujaca, liczbaIteracji, 1, mrowki, miaraOdleglosci);
-            Func<KonfiguracjaGrupowania> konfig_asm2017_sa4cprim_s1 = () => Konfiguracja_SA4CPrim_2017(maszynaLosujaca, liczbaIteracji, 1, mrowki, miaraOdleglosci);
+            //Func<KonfiguracjaGrupowania> konfig_asm2017_a4c_s1 = () => Konfiguracja_A4C_2017(maszynaLosujaca, liczbaIteracji, 1, mrowki, miaraOdleglosci);
+            //Func<KonfiguracjaGrupowania> konfig_asm2017_sa4c_s1 = () => Konfiguracja_SA4C_2017(maszynaLosujaca, liczbaIteracji, 1, mrowki, miaraOdleglosci);
+            //Func<KonfiguracjaGrupowania> konfig_asm2017_sa4cprim_s1 = () => Konfiguracja_SA4CPrim_2017(maszynaLosujaca, liczbaIteracji, 1, mrowki, miaraOdleglosci);
+            
+            Powtarzaj(konfig_asm2004_a4c, msNaStworzenieOdleglosci, mrowki, slownikKlasDocelowych, sciezkaWynikow + "ASM2004_A4C", liczbaPowtorzen);
+            Powtarzaj(konfig_asm2007_a4c, msNaStworzenieOdleglosci, mrowki, slownikKlasDocelowych, sciezkaWynikow + "ASM2007_A4C", liczbaPowtorzen);
+            Powtarzaj(konfig_asm2004_sa4c, msNaStworzenieOdleglosci, mrowki, slownikKlasDocelowych, sciezkaWynikow + "ASM2004_SA4C", liczbaPowtorzen);
+            Powtarzaj(konfig_asm2007_sa4c, msNaStworzenieOdleglosci, mrowki, slownikKlasDocelowych, sciezkaWynikow + "ASM2007_SA4C", liczbaPowtorzen);
+            Powtarzaj(konfig_asm2004_sa4cprim, msNaStworzenieOdleglosci, mrowki, slownikKlasDocelowych, sciezkaWynikow + "ASM2004_SA4CPrim", liczbaPowtorzen);
+            Powtarzaj(konfig_asm2007_sa4cprim, msNaStworzenieOdleglosci, mrowki, slownikKlasDocelowych, sciezkaWynikow + "ASM2007_SA4CPrim", liczbaPowtorzen);
 
-            //Powtarzaj(konfig_asm2004_a4c, msNaStworzenieOdleglosci, mrowki, slownikKlasDocelowych, sciezkaWynikow + "ASM2004_A4C", liczbaPowtorzen);
-            //Powtarzaj(konfig_asm2007_a4c, msNaStworzenieOdleglosci, mrowki, slownikKlasDocelowych, sciezkaWynikow + "ASM2007_A4C", liczbaPowtorzen);
-            //Powtarzaj(konfig_asm2004_sa4c, msNaStworzenieOdleglosci, mrowki, slownikKlasDocelowych, sciezkaWynikow + "ASM2004_SA4C", liczbaPowtorzen);
-            //Powtarzaj(konfig_asm2007_sa4c, msNaStworzenieOdleglosci, mrowki, slownikKlasDocelowych, sciezkaWynikow + "ASM2007_SA4C", liczbaPowtorzen);
-            //Powtarzaj(konfig_asm2004_sa4cprim, msNaStworzenieOdleglosci, mrowki, slownikKlasDocelowych, sciezkaWynikow + "ASM2004_SA4CPrim", liczbaPowtorzen);
-            //Powtarzaj(konfig_asm2007_sa4cprim, msNaStworzenieOdleglosci, mrowki, slownikKlasDocelowych, sciezkaWynikow + "ASM2007_SA4CPrim", liczbaPowtorzen);
             Powtarzaj(konfig_asm2017_a4c, msNaStworzenieOdleglosci, mrowki, slownikKlasDocelowych, sciezkaWynikow + "ASM2017_A4C", liczbaPowtorzen);
             Powtarzaj(konfig_asm2017_sa4c, msNaStworzenieOdleglosci, mrowki, slownikKlasDocelowych, sciezkaWynikow + "ASM2017_SA4C", liczbaPowtorzen);
             Powtarzaj(konfig_asm2017_sa4cprim, msNaStworzenieOdleglosci, mrowki, slownikKlasDocelowych, sciezkaWynikow + "ASM2017_SA4CPrim", liczbaPowtorzen);
-            Powtarzaj(konfig_asm2017_a4c_s1, msNaStworzenieOdleglosci, mrowki, slownikKlasDocelowych, sciezkaWynikow + "ASM2017_A4C_s1", liczbaPowtorzen);
-            Powtarzaj(konfig_asm2017_sa4c_s1, msNaStworzenieOdleglosci, mrowki, slownikKlasDocelowych, sciezkaWynikow + "ASM2017_SA4C_s1", liczbaPowtorzen);
-            Powtarzaj(konfig_asm2017_sa4cprim_s1, msNaStworzenieOdleglosci, mrowki, slownikKlasDocelowych, sciezkaWynikow + "ASM2017_SA4CPrim_s1", liczbaPowtorzen);
+            //Powtarzaj(konfig_asm2017_a4c_s1, msNaStworzenieOdleglosci, mrowki, slownikKlasDocelowych, sciezkaWynikow + "ASM2017_A4C_s1", liczbaPowtorzen);
+            //Powtarzaj(konfig_asm2017_sa4c_s1, msNaStworzenieOdleglosci, mrowki, slownikKlasDocelowych, sciezkaWynikow + "ASM2017_SA4C_s1", liczbaPowtorzen);
+            //Powtarzaj(konfig_asm2017_sa4cprim_s1, msNaStworzenieOdleglosci, mrowki, slownikKlasDocelowych, sciezkaWynikow + "ASM2017_SA4CPrim_s1", liczbaPowtorzen);
         }
 
         private static void Wykonuj(string sciezkaWynikow, int idDoWyswietlaniaIWypisywaniaItd,
